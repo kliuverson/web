@@ -1,4 +1,4 @@
-const API = 'http://localhost:3000/api/auth';
+const API = 'http://10.2.126.248:3000/api/auth';
 
 // ── Guardar y leer sesión ──────────────────────────
 const guardarSesion = (token, usuario) => {

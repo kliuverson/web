@@ -1,4 +1,4 @@
-const API = 'http://localhost:5502';
+const API = 'http://localhost:3000/api/auth';
 
 // ── Toggle contraseña ──
 document.getElementById('toggleBtn').addEventListener('click', () => {
@@ -38,17 +38,16 @@ function mostrarExito(msg) {
 
 // ── Iniciar sesión ──
 async function iniciarSesion() {
-  const correo    = document.getElementById('correo').value.trim();
+  const correo     = document.getElementById('correo').value.trim();
   const contrasena = document.getElementById('contrasena').value;
-  const recordar  = document.getElementById('recordar').checked;
-  const btn       = document.getElementById('btnIngresar');
+  const recordar   = document.getElementById('recordar').checked;
+  const btn        = document.getElementById('btnIngresar');
 
   if (!correo || !contrasena) {
     mostrarError('Por favor completa todos los campos.');
     return;
   }
 
-  // Estado cargando
   btn.classList.add('cargando');
   btn.textContent = 'VERIFICANDO...';
 
@@ -62,18 +61,19 @@ async function iniciarSesion() {
     const data = await res.json();
 
     if (res.ok) {
-      // Guardar según "recordar sesión"
+      // Guardar token y usuario
       const storage = recordar ? localStorage : sessionStorage;
-      storage.setItem('usuario', JSON.stringify(data.usuario));
+      storage.setItem('fm_token', data.token);
+      storage.setItem('fm_usuario', JSON.stringify(data.usuario));
 
       mostrarExito('¡Bienvenido! Redirigiendo...');
-      setTimeout(() => { window.location.href = 'perfil.html'; }, 1200);
+      setTimeout(() => { window.location.href = 'index.html'; }, 1200);
     } else {
-      mostrarError(data.mensaje || 'Correo o contraseña incorrectos.');
+      mostrarError(data.error || 'Correo o contraseña incorrectos.');
     }
 
   } catch (e) {
-    mostrarError('No se pudo conectar con el servidor. Verifica que esté corriendo en el puerto 5502.');
+    mostrarError('No se pudo conectar con el servidor. Verifica que esté corriendo en el puerto 3000.');
   } finally {
     btn.classList.remove('cargando');
     btn.innerHTML = `

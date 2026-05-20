@@ -1,4 +1,4 @@
-const API = 'http://localhost:5502';
+const API = 'http://localhost:3000/api/auth';
 
 // ── Toggle contraseña 1 ──
 document.getElementById('toggleBtn1').addEventListener('click', () => {

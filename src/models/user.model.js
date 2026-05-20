@@ -6,23 +6,26 @@ const findByEmail = async (correo) => {
 };
 
 const findById = async (id) => {
-  const [rows] = await db.query('SELECT id, nombre, correo, telefono, ciudad, empresa, documento, fecha_nacimiento, nivel, puntos, created_at FROM usuarios WHERE id = ?', [id]);
+  const [rows] = await db.query(
+    'SELECT id_usuario AS id, nombre, correo, telefono, documento, fecha_nacimiento, nivel, puntos, created_at FROM usuarios WHERE id_usuario = ?',
+    [id]
+  );
   return rows[0];
 };
 
-const create = async ({ nombre, correo, contrasena, telefono = null, ciudad = null }) => {
+const create = async ({ nombre, correo, contrasena, telefono = null }) => {
   const [result] = await db.query(
-    'INSERT INTO usuarios (nombre, correo, contrasena, telefono, ciudad) VALUES (?, ?, ?, ?, ?)',
-    [nombre, correo, contrasena, telefono, ciudad]
+    'INSERT INTO usuarios (nombre, correo, contrasena, telefono) VALUES (?, ?, ?, ?)',
+    [nombre, correo, contrasena, telefono]
   );
   return { id: result.insertId, nombre, correo };
 };
 
 const update = async (id, datos) => {
-  const { nombre, telefono, ciudad, empresa, documento, fecha_nacimiento } = datos;
+  const { nombre, telefono, documento, fecha_nacimiento } = datos;
   await db.query(
-    'UPDATE usuarios SET nombre=?, telefono=?, ciudad=?, empresa=?, documento=?, fecha_nacimiento=? WHERE id=?',
-    [nombre, telefono, ciudad, empresa, documento, fecha_nacimiento, id]
+    'UPDATE usuarios SET nombre=?, telefono=?, documento=?, fecha_nacimiento=? WHERE id_usuario=?',
+    [nombre, telefono, documento, fecha_nacimiento, id]
   );
   return findById(id);
 };
