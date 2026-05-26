@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FERREMATERIALES</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style/main.css">
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement">
+  <span>ENVÍO GRATIS EN COMPRAS SUPERIORES A $200.000</span>
+  <span>Lun–Sáb 7:00am — 7:00pm &nbsp;·&nbsp; <a href="tel:+573001234567">+57 300 123 4567</a></span>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay"></div>
+
+<!-- MENÚ LATERAL -->
+<aside class="side-menu" id="sideMenu" aria-hidden="true">
+  <div class="side-menu-header">
+    <span>MENÚ</span>
+    <button class="side-menu-close" id="closeMenuBtn" aria-label="Cerrar menú">✕</button>
+  </div>
+  <nav class="side-menu-nav">
+    <ul>
+      <li><a href="#">🏠&nbsp;&nbsp;Inicio</a></li>
+      <li><a href="#categorias">📦&nbsp;&nbsp;Categorías</a></li>
+      <li><a href="#productos">🔧&nbsp;&nbsp;Productos</a></li>
+      <li><a href="#ofertas">🏷️&nbsp;&nbsp;Ofertas</a></li>
+      <li><a href="#contacto">📞&nbsp;&nbsp;Contacto</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-left">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menú">☰</button>
+  </div>
+  <div class="nav-center">
+    <a href="#" class="logo">
+      <div class="logo-icon">
+        <img src="../assets/icons/logo_recortado.png" alt="FERREMATERIALES">
+      </div>
+      <div class="logo-text">
+        <div class="brand">FERREMATERIALES</div>
+        <div class="sub">tu aliado en materiales</div>
+      </div>
+    </a>
+  </div>
+  <div class="nav-right">
+    <a href="../pages/perfil.html">
+      <button class="profile-btn" aria-label="Mi perfil">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </button>
+    </a>
+    <button class="cart-btn">
+      🛒
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-carousel" role="region" aria-label="Carrusel de promociones">
+    <div class="carousel-track" id="heroTrack">
+      <div class="carousel-slide" role="group" aria-label="Slide 1 de 3">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1600" alt="Herramientas de construcción profesionales" loading="lazy">
+        <div class="slide-overlay"></div>
+        <div class="carousel-caption-custom">
+          <span>Herramientas Pro</span>
+          <h3>Equipos para<br>Construcción</h3>
+          <p>Calidad profesional para obras, talleres y proyectos de alto nivel.</p>
+          <a href="#productos">Comprar ahora →</a>
+        </div>
+      </div>
+      <div class="carousel-slide" role="group" aria-label="Slide 2 de 3">
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1600" alt="Ofertas especiales en ferretería" loading="lazy">
+        <div class="slide-overlay"></div>
+        <div class="carousel-caption-custom">
+          <span>Ofertas 2026</span>
+          <h3>Precios<br>Imbatibles</h3>
+          <p>Aprovecha descuentos exclusivos en herramientas eléctricas de las mejores marcas.</p>
+          <a href="#ofertas">Ver ofertas →</a>
+        </div>
+      </div>
+      <div class="carousel-slide" role="group" aria-label="Slide 3 de 3">
+        <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=1600" alt="Equipos de seguridad industrial" loading="lazy">
+        <div class="slide-overlay"></div>
+        <div class="carousel-caption-custom">
+          <span>Seguridad Industrial</span>
+          <h3>Protección<br>Profesional</h3>
+          <p>Cascos, guantes y equipos certificados para mantener tu trabajo seguro.</p>
+          <a href="#categorias">Explorar →</a>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-arrow prev" id="heroPrev" aria-label="Slide anterior">&#8592;</button>
+    <button class="carousel-arrow next" id="heroNext" aria-label="Slide siguiente">&#8594;</button>
+    <div class="carousel-indicators-custom" id="heroDots" role="tablist">
+      <button class="carousel-dot active" data-index="0" role="tab" aria-selected="true"  aria-label="Slide 1"></button>
+      <button class="carousel-dot"        data-index="1" role="tab" aria-selected="false" aria-label="Slide 2"></button>
+      <button class="carousel-dot"        data-index="2" role="tab" aria-selected="false" aria-label="Slide 3"></button>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item"><div class="num">25+</div><div class="label">Años</div></div>
+  <div class="stat-item"><div class="num">3K+</div><div class="label">Productos</div></div>
+  <div class="stat-item"><div class="num">15K+</div><div class="label">Clientes</div></div>
+</div>
+
+<!-- FEATURES BAR -->
+<div class="features-bar">
+  <div class="feature-item">
+    <div class="feature-icon">🚚</div>
+    <div><h4>Envío rápido</h4><p>24–48h en toda la ciudad</p></div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-icon">🛡️</div>
+    <div><h4>Garantía total</h4><p>Productos certificados</p></div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-icon">🎧</div>
+    <div><h4>Asesoría experta</h4><p>Atención personalizada</p></div>
+  </div>
+  <div class="feature-item">
+    <div class="feature-icon">⭐</div>
+    <div><h4>Mejores marcas</h4><p>Calidad profesional</p></div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<div class="categories-section" id="categorias">
+  <div class="section-label">01 / Categorías</div>
+  <div class="section-header">
+    <h2>Explora por<br>Categoría</h2>
+    <a href="#" class="see-all">Ver todas →</a>
+  </div>
+  <div class="categories-grid" id="categoriasGrid">
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="products-section" id="productos">
+  <div class="section-label">02 / Productos Destacados</div>
+  <div class="section-header">
+    <h2>Lo más<br>Vendido</h2>
+  </div>
+
+  <div class="filter-tabs" id="filterTabs">
+    <button class="filter-tab active" data-cat-id="todos">Todos</button>
+  </div>
+
+  <div class="products-grid" id="productsGrid">
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+  </div>
+
+  <div class="no-products" id="noProducts" style="display:none;">
+    <p>No se encontraron productos en esta categoría.</p>
+  </div>
+</section>
+
+<!-- PRO CTA -->
+<section class="pro-section" id="ofertas">
+  <div class="section-label pro-label">Para Profesionales</div>
+  <h2>¿Eres contratista?<br><span class="accent">Precios especiales</span> para ti.</h2>
+  <p>Crea tu cuenta empresarial y obtén descuentos por volumen, crédito directo y entrega prioritaria a tu obra.</p>
+  <a href="#" class="btn-primary">CREAR CUENTA PRO →</a>
+</section>
+
+<!-- FOOTER -->
+<footer id="contacto">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <img src="../assets/icons/logo_recortado.png" alt="FERREMATERIALES">
+        </div>
+        <div class="logo-text">
+          <div class="brand">FERREMATERIALES</div>
+          <div class="sub">Herramientas Pro</div>
+        </div>
+      </a>
+      <p>Tu ferretería de confianza desde 2001.<br>Construyendo proyectos, contigo.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Tienda</h5>
+      <ul>
+        <li><a href="#">Eléctricas</a></li>
+        <li><a href="#">Manuales</a></li>
+        <li><a href="#">Construcción</a></li>
+        <li><a href="#">Seguridad</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Empresa</h5>
+      <ul>
+        <li><a href="#">Sobre nosotros</a></li>
+        <li><a href="#">Sucursales</a></li>
+        <li><a href="#">Trabaja con nosotros</a></li>
+        <li><a href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Ayuda</h5>
+      <ul>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Envíos</a></li>
+        <li><a href="#">Devoluciones</a></li>
+        <li><a href="#">Garantías</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 FERREMATERIALES. Todos los derechos reservados.</p>
+    <p>Diseñado para profesionales de la construcción.</p>
+  </div>
+</footer>
+
+<!-- Solo el script externo, sin inline -->
+<script src="../js/script.js"></script>
+<script src="../js/products.js"></script>
+
+</body>
+</html>
