@@ -7,16 +7,16 @@ const findByEmail = async (correo) => {
 
 const findById = async (id) => {
   const [rows] = await db.query(
-    'SELECT id_usuario AS id, nombre, correo, telefono, documento, fecha_nacimiento, nivel, puntos, created_at FROM usuarios WHERE id_usuario = ?',
+    'SELECT id_usuario AS id, nombre, correo, telefono, documento, fecha_nacimiento, rol, created_at FROM usuarios WHERE id_usuario = ?',
     [id]
   );
   return rows[0];
 };
 
-const create = async ({ nombre, correo, contrasena, telefono = null }) => {
+const create = async ({ nombre, correo, contrasena, telefono = null, documento = null }) => {
   const [result] = await db.query(
-    'INSERT INTO usuarios (nombre, correo, contrasena, telefono) VALUES (?, ?, ?, ?)',
-    [nombre, correo, contrasena, telefono]
+    'INSERT INTO usuarios (nombre, correo, contrasena, telefono, documento) VALUES (?, ?, ?, ?, ?)',
+    [nombre, correo, contrasena, telefono, documento]
   );
   return { id: result.insertId, nombre, correo };
 };

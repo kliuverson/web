@@ -48,7 +48,7 @@ function mostrarExito(msg) {
 // ── Validaciones ──
 function validar(nombre, correo, contrasena, confirmar, terminos) {
   if (!nombre || !correo || !contrasena || !confirmar) {
-    mostrarError('Por favor completa todos los campos.');
+    mostrarError('Por favor completa todos los campos obligatorios.');
     return false;
   }
 
@@ -85,26 +85,27 @@ function validar(nombre, correo, contrasena, confirmar, terminos) {
   return true;
 }
 
-// ── Limpiar estado invalido al escribir ──
-['nombre', 'correo', 'contrasena', 'confirmar'].forEach(id => {
-  document.getElementById(id).addEventListener('input', () => {
-    document.getElementById(id).classList.remove('invalido');
+// ── Limpiar estado inválido al escribir ──
+['nombre', 'correo', 'documento', 'contrasena', 'confirmar'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => {
+    el.classList.remove('invalido');
     document.getElementById('msgError').style.display = 'none';
   });
 });
 
 // ── Registrar usuario ──
 async function registrarUsuario() {
-  const nombre    = document.getElementById('nombre').value.trim();
-  const correo    = document.getElementById('correo').value.trim();
+  const nombre     = document.getElementById('nombre').value.trim();
+  const correo     = document.getElementById('correo').value.trim();
+  const documento  = document.getElementById('documento').value.trim();
   const contrasena = document.getElementById('contrasena').value;
-  const confirmar = document.getElementById('confirmar').value;
-  const terminos  = document.getElementById('terminos').checked;
-  const btn       = document.getElementById('btnRegistrar');
+  const confirmar  = document.getElementById('confirmar').value;
+  const terminos   = document.getElementById('terminos').checked;
+  const btn        = document.getElementById('btnRegistrar');
 
   if (!validar(nombre, correo, contrasena, confirmar, terminos)) return;
 
-  // Estado cargando
   btn.classList.add('cargando');
   btn.textContent = 'CREANDO CUENTA...';
 
@@ -112,20 +113,22 @@ async function registrarUsuario() {
     const res = await fetch(`${API}/registro`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nombre, correo, contrasena }),
+      body: JSON.stringify({ nombre, correo, contrasena, documento }),
     });
 
-    const data = await res.text();
+    const data = await res.json();
 
     if (res.ok) {
+      localStorage.setItem('fm_token', data.token);
+      localStorage.setItem('fm_usuario', JSON.stringify(data.usuario));
       mostrarExito('¡Cuenta creada! Redirigiendo al login...');
       setTimeout(() => { window.location.href = 'login.html'; }, 1500);
     } else {
-      mostrarError(data || 'Error al crear la cuenta. Intenta de nuevo.');
+      mostrarError(data.error || 'Error al crear la cuenta. Intenta de nuevo.');
     }
 
   } catch (e) {
-    mostrarError('No se pudo conectar con el servidor. Verifica que esté corriendo en el puerto 5502.');
+    mostrarError('No se pudo conectar con el servidor. Verifica que esté corriendo en el puerto 3000.');
   } finally {
     btn.classList.remove('cargando');
     btn.innerHTML = `

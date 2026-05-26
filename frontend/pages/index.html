@@ -15,7 +15,7 @@
   <span>Lun–Sáb 7:00am — 7:00pm &nbsp;·&nbsp; <a href="tel:+573001234567">+57 300 123 4567</a></span>
 </div>
 
-<!-- OVERLAY (fondo oscuro del menú lateral) -->
+<!-- OVERLAY -->
 <div class="overlay" id="overlay"></div>
 
 <!-- MENÚ LATERAL -->
@@ -25,7 +25,7 @@
     <button class="side-menu-close" id="closeMenuBtn" aria-label="Cerrar menú">✕</button>
   </div>
   <nav class="side-menu-nav">
-    <ul>0
+    <ul>
       <li><a href="#">🏠&nbsp;&nbsp;Inicio</a></li>
       <li><a href="#categorias">📦&nbsp;&nbsp;Categorías</a></li>
       <li><a href="#productos">🔧&nbsp;&nbsp;Productos</a></li>
@@ -33,7 +33,6 @@
       <li><a href="#contacto">📞&nbsp;&nbsp;Contacto</a></li>
     </ul>
   </nav>
-  
 </aside>
 
 <!-- NAVBAR -->
@@ -52,35 +51,28 @@
       </div>
     </a>
   </div>
-  
   <div class="nav-right">
     <a href="../pages/perfil.html">
-    <button class="profile-btn" aria-label="Mi perfil">
-      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="8" r="4"/>
-        <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-      </svg>
-    </button>
+      <button class="profile-btn" aria-label="Mi perfil">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </button>
     </a>
     <button class="cart-btn">
       🛒
-      <span class="cart-badge">3</span>
+      <span class="cart-badge" id="cartBadge">0</span>
     </button>
   </div>
 </nav>
 
-<!-- HERO: solo el carrusel -->
+<!-- HERO -->
 <div class="hero">
   <div class="hero-carousel" role="region" aria-label="Carrusel de promociones">
     <div class="carousel-track" id="heroTrack">
-
-      <!-- Slide 1 -->
       <div class="carousel-slide" role="group" aria-label="Slide 1 de 3">
-        <img
-          src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1600"
-          alt="Herramientas de construcción profesionales"
-          loading="lazy"
-        >
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1600" alt="Herramientas de construcción profesionales" loading="lazy">
         <div class="slide-overlay"></div>
         <div class="carousel-caption-custom">
           <span>Herramientas Pro</span>
@@ -89,14 +81,8 @@
           <a href="#productos">Comprar ahora →</a>
         </div>
       </div>
-
-      <!-- Slide 2 -->
       <div class="carousel-slide" role="group" aria-label="Slide 2 de 3">
-        <img
-          src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1600"
-          alt="Ofertas especiales en ferretería"
-          loading="lazy"
-        >
+        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1600" alt="Ofertas especiales en ferretería" loading="lazy">
         <div class="slide-overlay"></div>
         <div class="carousel-caption-custom">
           <span>Ofertas 2026</span>
@@ -105,14 +91,8 @@
           <a href="#ofertas">Ver ofertas →</a>
         </div>
       </div>
-
-      <!-- Slide 3 -->
       <div class="carousel-slide" role="group" aria-label="Slide 3 de 3">
-        <img
-          src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=1600"
-          alt="Equipos de seguridad industrial"
-          loading="lazy"
-        >
+        <img src="https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=1600" alt="Equipos de seguridad industrial" loading="lazy">
         <div class="slide-overlay"></div>
         <div class="carousel-caption-custom">
           <span>Seguridad Industrial</span>
@@ -121,65 +101,41 @@
           <a href="#categorias">Explorar →</a>
         </div>
       </div>
-
-    </div><!-- /carousel-track -->
-
+    </div>
     <button class="carousel-arrow prev" id="heroPrev" aria-label="Slide anterior">&#8592;</button>
     <button class="carousel-arrow next" id="heroNext" aria-label="Slide siguiente">&#8594;</button>
-
     <div class="carousel-indicators-custom" id="heroDots" role="tablist">
       <button class="carousel-dot active" data-index="0" role="tab" aria-selected="true"  aria-label="Slide 1"></button>
       <button class="carousel-dot"        data-index="1" role="tab" aria-selected="false" aria-label="Slide 2"></button>
       <button class="carousel-dot"        data-index="2" role="tab" aria-selected="false" aria-label="Slide 3"></button>
     </div>
   </div>
-</div><!-- /hero -->
+</div>
 
 <!-- STATS -->
 <div class="stats">
-  <div class="stat-item">
-    <div class="num">25+</div>
-    <div class="label">Años</div>
-  </div>
-  <div class="stat-item">
-    <div class="num">3K+</div>
-    <div class="label">Productos</div>
-  </div>
-  <div class="stat-item">
-    <div class="num">15K+</div>
-    <div class="label">Clientes</div>
-  </div>
+  <div class="stat-item"><div class="num">25+</div><div class="label">Años</div></div>
+  <div class="stat-item"><div class="num">3K+</div><div class="label">Productos</div></div>
+  <div class="stat-item"><div class="num">15K+</div><div class="label">Clientes</div></div>
 </div>
 
 <!-- FEATURES BAR -->
 <div class="features-bar">
   <div class="feature-item">
     <div class="feature-icon">🚚</div>
-    <div>
-      <h4>Envío rápido</h4>
-      <p>24–48h en toda la ciudad</p>
-    </div>
+    <div><h4>Envío rápido</h4><p>24–48h en toda la ciudad</p></div>
   </div>
   <div class="feature-item">
     <div class="feature-icon">🛡️</div>
-    <div>
-      <h4>Garantía total</h4>
-      <p>Productos certificados</p>
-    </div>
+    <div><h4>Garantía total</h4><p>Productos certificados</p></div>
   </div>
   <div class="feature-item">
     <div class="feature-icon">🎧</div>
-    <div>
-      <h4>Asesoría experta</h4>
-      <p>Atención personalizada</p>
-    </div>
+    <div><h4>Asesoría experta</h4><p>Atención personalizada</p></div>
   </div>
   <div class="feature-item">
     <div class="feature-icon">⭐</div>
-    <div>
-      <h4>Mejores marcas</h4>
-      <p>Calidad profesional</p>
-    </div>
+    <div><h4>Mejores marcas</h4><p>Calidad profesional</p></div>
   </div>
 </div>
 
@@ -190,43 +146,15 @@
     <h2>Explora por<br>Categoría</h2>
     <a href="#" class="see-all">Ver todas →</a>
   </div>
-  <div class="categories-grid">
-    <div class="cat-card">
-      <div class="cat-num">01</div>
-      <div class="cat-name">Herramientas Eléctricas</div>
-      <div class="cat-count">240+ productos</div>
-      <span class="cat-arrow">→</span>
-    </div>
-    <div class="cat-card">
-      <div class="cat-num">02</div>
-      <div class="cat-name">Herramientas Manuales</div>
-      <div class="cat-count">580+ productos</div>
-      <span class="cat-arrow">→</span>
-    </div>
-    <div class="cat-card">
-      <div class="cat-num">03</div>
-      <div class="cat-name">Construcción</div>
-      <div class="cat-count">1.200+ productos</div>
-      <span class="cat-arrow">→</span>
-    </div>
-    <div class="cat-card">
-      <div class="cat-num">04</div>
-      <div class="cat-name">Plomería</div>
-      <div class="cat-count">320+ productos</div>
-      <span class="cat-arrow">→</span>
-    </div>
-    <div class="cat-card">
-      <div class="cat-num">05</div>
-      <div class="cat-name">Eléctricos</div>
-      <div class="cat-count">450+ productos</div>
-      <span class="cat-arrow">→</span>
-    </div>
-    <div class="cat-card">
-      <div class="cat-num">06</div>
-      <div class="cat-name">Seguridad Industrial</div>
-      <div class="cat-count">180+ productos</div>
-      <span class="cat-arrow">→</span>
-    </div>
+  <div class="categories-grid" id="categoriasGrid">
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
+    <div class="cat-skeleton"></div>
   </div>
 </div>
 
@@ -238,137 +166,22 @@
   </div>
 
   <div class="filter-tabs" id="filterTabs">
-    <button class="filter-tab active" data-filter="todos">Todos</button>
-    <button class="filter-tab" data-filter="electrica">Eléctrica</button>
-    <button class="filter-tab" data-filter="manual">Manual</button>
-    <button class="filter-tab" data-filter="seguridad">Seguridad</button>
+    <button class="filter-tab active" data-cat-id="todos">Todos</button>
   </div>
 
-  <div class="carousel-wrapper">
-    <div class="carousel-track-container">
-      <div class="carousel-track" id="carouselTrack">
+  <div class="products-grid" id="productsGrid">
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+    <div class="product-skeleton"></div>
+  </div>
 
-        <!-- Product 1 -->
-        <div class="product-card" data-cat="electrica">
-          <span class="product-badge">BESTSELLER</span>
-          <div class="product-img">
-            <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=600&q=80" alt="Taladro Inalámbrico">
-          </div>
-          <div class="product-body">
-            <div class="product-cat">Eléctrica</div>
-            <div class="product-name">Taladro Inalámbrico 20V</div>
-            <div class="product-footer">
-              <div class="price-group">
-                <div class="price-original">$189.000</div>
-                <div class="price-current">$159.000</div>
-                <div class="stars">★★★★★ (98)</div>
-              </div>
-              <button class="add-cart-btn">🛒</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 2 -->
-        <div class="product-card" data-cat="manual">
-          <div class="product-img">
-            <img src="https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=600&q=80" alt="Martillo">
-          </div>
-          <div class="product-body">
-            <div class="product-cat">Manual</div>
-            <div class="product-name">Martillo Carpintero 16oz</div>
-            <div class="product-footer">
-              <div class="price-group">
-                <div class="price-current">$38.900</div>
-                <div class="stars">★★★★★ (124)</div>
-              </div>
-              <button class="add-cart-btn">🛒</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 3 -->
-        <div class="product-card" data-cat="manual">
-          <div class="product-img">
-            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Llave Ajustable">
-          </div>
-          <div class="product-body">
-            <div class="product-cat">Manual</div>
-            <div class="product-name">Llave Ajustable 12"</div>
-            <div class="product-footer">
-              <div class="price-group">
-                <div class="price-current">$24.500</div>
-                <div class="stars">★★★★☆ (87)</div>
-              </div>
-              <button class="add-cart-btn">🛒</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 4 -->
-        <div class="product-card" data-cat="electrica">
-          <span class="product-badge" style="background:#c0392b">-15%</span>
-          <div class="product-img">
-            <img src="https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=600&q=80" alt="Sierra Circular">
-          </div>
-          <div class="product-body">
-            <div class="product-cat">Eléctrica</div>
-            <div class="product-name">Sierra Circular 1500W</div>
-            <div class="product-footer">
-              <div class="price-group">
-                <div class="price-original">$799.000</div>
-                <div class="price-current">$689.000</div>
-                <div class="stars">★★★★★ (124)</div>
-              </div>
-              <button class="add-cart-btn">🛒</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 5 -->
-        <div class="product-card" data-cat="seguridad">
-          <span class="product-badge new">NUEVO</span>
-          <div class="product-img">
-            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80" alt="Casco">
-          </div>
-          <div class="product-body">
-            <div class="product-cat">Protección</div>
-            <div class="product-name">Casco de Seguridad</div>
-            <div class="product-footer">
-              <div class="price-group">
-                <div class="price-current">$32.000</div>
-                <div class="stars">★★★★★ (56)</div>
-              </div>
-              <button class="add-cart-btn">🛒</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Product 6 -->
-        <div class="product-card" data-cat="manual">
-          <div class="product-img">
-            <img src="https://images.unsplash.com/photo-1567789884554-0b844b597180?w=600&q=80" alt="Set Destornilladores">
-          </div>
-          <div class="product-body">
-            <div class="product-cat">Manual</div>
-            <div class="product-name">Set de Destornilladores</div>
-            <div class="product-footer">
-              <div class="price-group">
-                <div class="price-current">$54.900</div>
-                <div class="stars">★★★★★ (124)</div>
-              </div>
-              <button class="add-cart-btn">🛒</button>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /carousel-track -->
-    </div><!-- /track-container -->
-
-    <div class="carousel-controls">
-      <button class="carousel-btn" id="prevBtn">←</button>
-      <div class="carousel-dots" id="carouselDots"></div>
-      <button class="carousel-btn" id="nextBtn">→</button>
-    </div>
+  <div class="no-products" id="noProducts" style="display:none;">
+    <p>No se encontraron productos en esta categoría.</p>
   </div>
 </section>
 
@@ -387,6 +200,7 @@
       <a href="#" class="logo">
         <div class="logo-icon">
           <img src="../assets/icons/logo_recortado.png" alt="FERREMATERIALES">
+        </div>
         <div class="logo-text">
           <div class="brand">FERREMATERIALES</div>
           <div class="sub">Herramientas Pro</div>
@@ -428,6 +242,9 @@
   </div>
 </footer>
 
+<!-- Solo el script externo, sin inline -->
 <script src="../js/script.js"></script>
+<script src="../js/products.js"></script>
+
 </body>
 </html>

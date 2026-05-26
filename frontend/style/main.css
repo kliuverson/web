@@ -838,3 +838,77 @@ footer {
   .hero-carousel .carousel-caption-custom h3 { font-size: 1.4rem; }
   .hero-carousel .carousel-caption-custom p { display: none; }
 }
+
+cat-skeleton {
+  height: 120px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+.product-skeleton {
+  height: 340px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #1a1a1a 25%, #2a2a2a 50%, #1a1a1a 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  flex: 0 0 300px;
+  min-width: 280px;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+ 
+/* ── PRODUCTS GRID (reemplaza el carousel en móvil) ── */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+}
+ 
+/* ── ÍCONO FALLBACK cuando no hay imagen ── */
+.product-icon {
+  font-size: 52px;
+  opacity: 0.5;
+}
+ 
+/* ── PRECIO "Consultar" cuando es 0 ── */
+.price-na {
+  font-size: 13px;
+  color: var(--gray);
+  font-style: italic;
+}
+ 
+/* ── MENSAJE SIN PRODUCTOS ── */
+.no-products {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--gray);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  letter-spacing: 1px;
+  grid-column: 1 / -1;
+}
+ 
+/* ── BANNER DE ERROR API ── */
+.api-error {
+  background: #1a0a0a;
+  border: 1px solid #c0392b;
+  color: #e74c3c;
+  padding: 16px 24px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  text-align: center;
+  grid-column: 1 / -1;
+}
+ 
+/* ── TABS: scroll horizontal en móvil ── */
+.filter-tabs {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex-wrap: nowrap;
+}
+.filter-tabs::-webkit-scrollbar { display: none; }

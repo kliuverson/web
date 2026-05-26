@@ -596,3 +596,19 @@
   .pedido-item { flex-wrap: wrap; }
   .pedido-right { width: 100%; text-align: left; margin-top: 8px; }
 }
+/* ── INPUTS DE EDICIÓN ── */
+.edit-input {
+  width: 100%;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 3px;
+  color: var(--white);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color .2s;
+  box-sizing: border-box;
+}
+.edit-input:focus { border-color: var(--orange); }
