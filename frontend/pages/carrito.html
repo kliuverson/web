@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carrito — FERREMATERIALES</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style/main.css">
+    <link rel="stylesheet" href="../style/carrito.css">
+</head>
+<body>
+
+<!-- ANNOUNCEMENT BAR -->
+<div class="announcement">
+  <span>ENVÍO GRATIS EN COMPRAS SUPERIORES A $200.000</span>
+  <span>Lun–Sáb 7:00am — 7:00pm &nbsp;·&nbsp; <a href="tel:+573001234567">+57 300 123 4567</a></span>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay"></div>
+
+<!-- MENÚ LATERAL -->
+<aside class="side-menu" id="sideMenu" aria-hidden="true">
+  <div class="side-menu-header">
+    <span>MENÚ</span>
+    <button class="side-menu-close" id="closeMenuBtn" aria-label="Cerrar menú">✕</button>
+  </div>
+  <nav class="side-menu-nav">
+    <ul>
+      <li><a href="index.html">🏠&nbsp;&nbsp;Inicio</a></li>
+      <li><a href="index.html#categorias">📦&nbsp;&nbsp;Categorías</a></li>
+      <li><a href="index.html#productos">🔧&nbsp;&nbsp;Productos</a></li>
+      <li><a href="index.html#ofertas">🏷️&nbsp;&nbsp;Ofertas</a></li>
+      <li><a href="index.html#contacto">📞&nbsp;&nbsp;Contacto</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-left">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menú">☰</button>
+  </div>
+  <div class="nav-center">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <img src="../assets/icons/logo_recortado.png" alt="FERREMATERIALES">
+      </div>
+      <div class="logo-text">
+        <div class="brand">FERREMATERIALES</div>
+        <div class="sub">tu aliado en materiales</div>
+      </div>
+    </a>
+  </div>
+  <div class="nav-right">
+    <a href="perfil.html">
+      <button class="profile-btn" aria-label="Mi perfil">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </button>
+    </a>
+    <button class="cart-btn">
+      🛒
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- CONTENIDO -->
+<main class="carrito-page">
+  <h1 class="carrito-titulo">Mi Carrito</h1>
+  <p class="carrito-subtitulo" id="carritoSubtitulo">Cargando...</p>
+  <div id="carritoContenido"></div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <img src="../assets/icons/logo_recortado.png" alt="FERREMATERIALES">
+        </div>
+        <div class="logo-text">
+          <div class="brand">FERREMATERIALES</div>
+          <div class="sub">Herramientas Pro</div>
+        </div>
+      </a>
+      <p>Tu ferretería de confianza desde 2001.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Tienda</h5>
+      <ul>
+        <li><a href="#">Eléctricas</a></li>
+        <li><a href="#">Manuales</a></li>
+        <li><a href="#">Construcción</a></li>
+        <li><a href="#">Seguridad</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Ayuda</h5>
+      <ul>
+        <li><a href="#">Contacto</a></li>
+        <li><a href="#">Envíos</a></li>
+        <li><a href="#">Devoluciones</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 FERREMATERIALES. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<script src="../js/script.js"></script>
+<script src="../js/carrito.js"></script>
+</body>
+</html>

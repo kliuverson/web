@@ -31,6 +31,7 @@ const CAT_IMAGES = {
 let allProducts   = [];
 let allCategorias = [];
 let cartCount     = 0;
+let favoritosSet  = new Set(); // IDs de productos favoritos del usuario
 
 // ============================================================
 //  CARGAR CATEGORÍAS DESDE API
@@ -56,10 +57,31 @@ async function cargarProductos() {
     const res = await fetch(`${API_BASE}/productos`);
     if (!res.ok) throw new Error();
     allProducts = await res.json();
+    await cargarFavoritos(); // cargar favoritos antes de renderizar
     renderProductos(allProducts);
   } catch (err) {
     document.getElementById('productsGrid').innerHTML =
       `<div class="api-error">⚠️ No se pudieron cargar los productos. Verifica que el servidor esté corriendo.</div>`;
+  }
+}
+
+// ============================================================
+//  CARGAR FAVORITOS DEL USUARIO
+// ============================================================
+async function cargarFavoritos() {
+  const token = localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
+  if (!token) return; // si no está logueado, no hay favoritos
+
+  try {
+    const res = await fetch(`${API_BASE}/favoritos`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    // data debe ser un array de objetos con id_producto
+    favoritosSet = new Set(data.map(f => f.id_producto));
+  } catch (err) {
+    console.error('Error cargando favoritos:', err);
   }
 }
 
@@ -139,15 +161,21 @@ function renderProductos(productos) {
       ? `<div class="price-current">$${precio.toLocaleString('es-CO')}</div>`
       : `<div class="price-na">Consultar precio</div>`;
 
+    const esFavorito = favoritosSet.has(p.id_producto);
+
     const card = document.createElement('div');
     card.className = 'product-card';
-    // Cursor pointer para indicar que es clickeable
     card.style.cursor = 'pointer';
 
     card.innerHTML = `
       <div class="product-img">
         ${imgSrc ? `<img src="${imgSrc}" alt="${p.nombre}" loading="lazy">` : ''}
         <div class="product-icon" ${imgSrc ? 'style="display:none"' : ''}>${icon}</div>
+        <button class="fav-btn ${esFavorito ? 'active' : ''}" 
+                title="${esFavorito ? 'Quitar de favoritos' : 'Agregar a favoritos'}"
+                data-id="${p.id_producto}">
+          ${esFavorito ? '❤️' : '🤍'}
+        </button>
       </div>
       <div class="product-body">
         <div class="product-cat">${catNombre}</div>
@@ -159,13 +187,13 @@ function renderProductos(productos) {
       </div>
     `;
 
-    // Click en la card → ir a detalle (excepto si es el botón del carrito)
+    // Click en la card → ir a detalle (excepto botones)
     card.addEventListener('click', (e) => {
-      if (e.target.closest('.add-cart-btn')) return;
+      if (e.target.closest('.add-cart-btn') || e.target.closest('.fav-btn')) return;
       window.location.href = `product.html?id=${p.id_producto}`;
     });
 
-    // Botón carrito — feedback visual + no redirigir
+    // Botón carrito
     card.querySelector('.add-cart-btn').addEventListener('click', (e) => {
       e.stopPropagation();
       agregarAlCarrito(p.id_producto, p.nombre);
@@ -178,8 +206,64 @@ function renderProductos(productos) {
       }, 1000);
     });
 
+    // Botón favorito ❤️
+    card.querySelector('.fav-btn').addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleFavorito(p.id_producto, e.currentTarget);
+    });
+
     grid.appendChild(card);
   });
+}
+
+// ============================================================
+//  TOGGLE FAVORITO
+// ============================================================
+async function toggleFavorito(idProducto, btn) {
+  const token = localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
+
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  const esFavorito = favoritosSet.has(idProducto);
+
+  try {
+    if (esFavorito) {
+      // Quitar favorito → DELETE
+      const res = await fetch(`${API_BASE}/favoritos/${idProducto}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error();
+      favoritosSet.delete(idProducto);
+      btn.textContent = '🤍';
+      btn.classList.remove('active');
+      btn.title = 'Agregar a favoritos';
+    } else {
+      // Agregar favorito → POST
+      const res = await fetch(`${API_BASE}/favoritos`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ id_producto: idProducto })
+      });
+      if (!res.ok) throw new Error();
+      favoritosSet.add(idProducto);
+      btn.textContent = '❤️';
+      btn.classList.add('active');
+      btn.title = 'Quitar de favoritos';
+
+      // Animación de "pop"
+      btn.style.transform = 'scale(1.4)';
+      setTimeout(() => btn.style.transform = '', 300);
+    }
+  } catch (err) {
+    console.error('Error al actualizar favoritos:', err);
+  }
 }
 
 // ============================================================
@@ -205,13 +289,30 @@ function capitalizarNombre(str) {
 // ============================================================
 //  CARRITO
 // ============================================================
-function agregarAlCarrito(id, nombre) {
-  cartCount++;
-  const badge = document.getElementById('cartBadge');
-  badge.textContent     = cartCount;
-  badge.style.transform = 'scale(1.5)';
-  setTimeout(() => badge.style.transform = 'scale(1)', 200);
-  console.log(`Agregado: ${nombre} (id: ${id})`);
+async function agregarAlCarrito(id, nombre) {
+  const token = localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
+
+  if (!token) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  try {
+    const res = await fetch('http://localhost:3000/carrito', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ id_producto: id, cantidad: 1 })
+    });
+
+    if (!res.ok) throw new Error();
+    actualizarContadorCarrito();
+
+  } catch (err) {
+    console.error('Error agregando al carrito');
+  }
 }
 
 // ============================================================

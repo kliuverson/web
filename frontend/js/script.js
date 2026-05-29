@@ -69,3 +69,29 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
   });
 });
+// ── BOTÓN CARRITO → carrito.html ──
+const cartBtn = document.querySelector('.cart-btn');
+if (cartBtn) {
+  cartBtn.addEventListener('click', () => {
+    const enPages = window.location.pathname.includes('/pages/');
+    window.location.href = enPages ? 'carrito.html' : 'pages/carrito.html';
+  });
+}
+
+// ── CONTADOR CARRITO EN NAVBAR ──
+async function actualizarContadorCarrito() {
+  const token = localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
+  if (!token) return;
+  try {
+    const res = await fetch('http://localhost:3000/carrito', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    const total = (data.items || []).reduce((acc, i) => acc + i.cantidad, 0);
+    const badge = document.getElementById('cartBadge');
+    if (badge) badge.textContent = total;
+  } catch (err) {}
+}
+
+actualizarContadorCarrito();
