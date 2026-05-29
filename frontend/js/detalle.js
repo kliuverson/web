@@ -1,7 +1,4 @@
-
-// frontend/js/producto.js
-// Carga el detalle de un producto desde la API según el ?id= de la URL
-
+// frontend/js/detalle.js
 const API_BASE = 'http://localhost:3000';
 
 const CAT_ICONS = {
@@ -26,8 +23,16 @@ const CAT_IMAGES = {
   'Construcción':             'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',
 };
 
-// Leer el ?id= de la URL
-const params = new URLSearchParams(window.location.search);
+// ── Helpers de sesión ──
+function getToken() {
+  return localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
+}
+function estaLogueado() {
+  return !!getToken();
+}
+
+// ── Leer ?id= de la URL ──
+const params     = new URLSearchParams(window.location.search);
 const productoId = params.get('id');
 
 async function cargarProducto() {
@@ -47,10 +52,10 @@ async function cargarProducto() {
 
     skeleton.style.display = 'none';
 
-    const catNombre = p.categoria || 'Producto';
-    const icon      = CAT_ICONS[catNombre] || '📦';
-    const imgSrc    = CAT_IMAGES[catNombre];
-    const precio    = parseFloat(p.precio);
+    const catNombre  = p.categoria || 'Producto';
+    const icon       = CAT_ICONS[catNombre] || '📦';
+    const imgSrc     = CAT_IMAGES[catNombre];
+    const precio     = parseFloat(p.precio);
     const precioHTML = precio > 0
       ? `$${precio.toLocaleString('es-CO')}`
       : `<span class="consultar">Consultar precio</span>`;
@@ -59,16 +64,12 @@ async function cargarProducto() {
     detalle.className = 'detalle-hero';
     detalle.innerHTML = `
       <a href="index.html#productos" class="detalle-back">← Volver a productos</a>
-
       <div class="detalle-grid">
-
-        <!-- GALERÍA -->
         <div class="detalle-galeria">
           <div class="galeria-main">
             ${imgSrc
               ? `<img src="${imgSrc}" alt="${p.nombre}" id="imgPrincipal">`
-              : `<div class="galeria-placeholder">${icon}</div>`
-            }
+              : `<div class="galeria-placeholder">${icon}</div>`}
           </div>
           ${imgSrc ? `
           <div class="galeria-thumbs">
@@ -77,8 +78,6 @@ async function cargarProducto() {
             </div>
           </div>` : ''}
         </div>
-
-        <!-- INFO -->
         <div class="detalle-info">
           <div class="detalle-cat">${icon} ${catNombre}</div>
           <h1 class="detalle-nombre">${p.nombre}</h1>
@@ -100,6 +99,7 @@ async function cargarProducto() {
             </div>
           </div>
           <div class="detalle-divider"></div>
+          <div id="msgCarrito"></div>
           <div class="detalle-acciones">
             <div class="qty-control">
               <button class="qty-btn" id="qtyMenos">−</button>
@@ -109,12 +109,11 @@ async function cargarProducto() {
             <button class="btn-carrito" id="btnCarrito">🛒 Agregar al carrito</button>
           </div>
         </div>
-
       </div>
     `;
     main.appendChild(detalle);
 
-    // Cantidad
+    // ── Cantidad ──
     document.getElementById('qtyMenos').addEventListener('click', () => {
       const input = document.getElementById('qtyInput');
       if (parseInt(input.value) > 1) input.value = parseInt(input.value) - 1;
@@ -124,20 +123,52 @@ async function cargarProducto() {
       input.value = parseInt(input.value) + 1;
     });
 
-    // Agregar al carrito
-    document.getElementById('btnCarrito').addEventListener('click', () => {
-      const btn = document.getElementById('btnCarrito');
-      const qty = document.getElementById('qtyInput').value;
-      btn.textContent = '✓ Agregado';
-      btn.classList.add('agregado');
-      setTimeout(() => {
-        btn.textContent = '🛒 Agregar al carrito';
-        btn.classList.remove('agregado');
-      }, 1500);
-      console.log(`Agregado: ${p.nombre} x${qty}`);
+    // ── Agregar al carrito (llama a la API) ──
+    document.getElementById('btnCarrito').addEventListener('click', async () => {
+      const btn      = document.getElementById('btnCarrito');
+      const cantidad = parseInt(document.getElementById('qtyInput').value);
+      const msg      = document.getElementById('msgCarrito');
+
+      // Si no está logueado, redirigir al login
+      if (!estaLogueado()) {
+        msg.innerHTML = `<p style="color:#e8b84b;font-size:13px;margin-bottom:12px">⚠️ Debes <a href="login.html" style="color:#e85d04;font-weight:700">iniciar sesión</a> para agregar al carrito.</p>`;
+        return;
+      }
+
+      btn.disabled    = true;
+      btn.textContent = 'Agregando...';
+
+      try {
+        const res = await fetch(`${API_BASE}/carrito`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+          },
+          body: JSON.stringify({ id_producto: p.id_producto, cantidad })
+        });
+
+        if (!res.ok) throw new Error();
+
+        // Éxito
+        btn.textContent = '✓ Agregado';
+        btn.classList.add('agregado');
+        msg.innerHTML = `<p style="color:#2ecc71;font-size:13px;margin-bottom:12px">✓ Producto agregado al carrito. <a href="carrito.html" style="color:#e85d04;font-weight:700">Ver carrito →</a></p>`;
+        actualizarContadorCarrito();
+
+        setTimeout(() => {
+          btn.textContent = '🛒 Agregar al carrito';
+          btn.classList.remove('agregado');
+          btn.disabled = false;
+        }, 2000);
+
+      } catch (err) {
+        btn.textContent = 'Error, intenta de nuevo';
+        btn.disabled    = false;
+        setTimeout(() => { btn.textContent = '🛒 Agregar al carrito'; }, 2000);
+      }
     });
 
-    // Título de la página
     document.title = `${p.nombre} — FERREMATERIALES`;
 
   } catch (err) {

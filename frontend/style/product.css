@@ -1,0 +1,275 @@
+ /* ── DETALLE PRODUCTO ── */
+    .detalle-hero {
+      min-height: 100vh;
+      padding: 120px 40px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .detalle-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent, #e85d04);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      margin-bottom: 40px;
+      transition: opacity 0.2s;
+    }
+    .detalle-back:hover { opacity: 0.7; }
+
+    .detalle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    /* Galería de imágenes */
+    .detalle-galeria {
+      position: sticky;
+      top: 100px;
+    }
+
+    .galeria-main {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #111;
+      border: 1px solid #222;
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .galeria-main img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .galeria-placeholder {
+      font-size: 5rem;
+    }
+
+    .galeria-thumbs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .galeria-thumb {
+      width: 72px;
+      height: 72px;
+      border: 2px solid #222;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .galeria-thumb.active,
+    .galeria-thumb:hover { border-color: var(--accent, #e85d04); }
+
+    .galeria-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Info del producto */
+    .detalle-info { display: flex; flex-direction: column; gap: 24px; }
+
+    .detalle-cat {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent, #e85d04);
+    }
+
+    .detalle-nombre {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1.1;
+      color: #fff;
+      margin: 0;
+    }
+
+    .detalle-precio {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .detalle-precio .consultar {
+      font-size: 1.1rem;
+      color: #888;
+      font-weight: 400;
+    }
+
+    .detalle-divider {
+      height: 1px;
+      background: #222;
+    }
+
+    .detalle-descripcion {
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.95rem;
+      color: #aaa;
+      line-height: 1.7;
+    }
+
+    .detalle-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .detalle-meta-item {
+      display: flex;
+      gap: 12px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 0.88rem;
+    }
+
+    .detalle-meta-item .label {
+      color: #666;
+      min-width: 120px;
+    }
+
+    .detalle-meta-item .value {
+      color: #ccc;
+      font-weight: 600;
+    }
+
+    /* Cantidad + botón */
+    .detalle-acciones {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .qty-control {
+      display: flex;
+      align-items: center;
+      border: 1px solid #333;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .qty-btn {
+      width: 40px;
+      height: 48px;
+      background: #111;
+      border: none;
+      color: #fff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .qty-btn:hover { background: #222; }
+
+    .qty-input {
+      width: 50px;
+      height: 48px;
+      background: #0a0a0a;
+      border: none;
+      border-left: 1px solid #333;
+      border-right: 1px solid #333;
+      color: #fff;
+      text-align: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .btn-carrito {
+      flex: 1;
+      min-width: 180px;
+      height: 48px;
+      background: var(--accent, #e85d04);
+      color: #fff;
+      border: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      border-radius: 4px;
+    }
+
+    .btn-carrito:hover { opacity: 0.9; }
+    .btn-carrito:active { transform: scale(0.98); }
+    .btn-carrito.agregado { background: #2ecc71; }
+
+    /* Loading skeleton */
+    .detalle-skeleton {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      padding: 120px 40px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .skel-img {
+      aspect-ratio: 1;
+      background: #111;
+      border-radius: 4px;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .skel-lines { display: flex; flex-direction: column; gap: 16px; padding-top: 20px; }
+
+    .skel-line {
+      height: 18px;
+      background: #111;
+      border-radius: 4px;
+      animation: shimmer 1.5s infinite;
+    }
+
+    .skel-line.w30 { width: 30%; }
+    .skel-line.w70 { width: 70%; }
+    .skel-line.w50 { width: 50%; }
+    .skel-line.w100 { width: 100%; }
+    .skel-line.tall { height: 48px; width: 60%; }
+
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 0.8; }
+    }
+
+    .error-detalle {
+      padding: 120px 40px;
+      text-align: center;
+      color: #e74c3c;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .detalle-grid,
+      .detalle-skeleton { grid-template-columns: 1fr; gap: 32px; }
+      .detalle-hero { padding: 100px 20px 60px; }
+      .detalle-galeria { position: static; }
+    }
