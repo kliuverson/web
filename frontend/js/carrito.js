@@ -223,9 +223,8 @@ async function vaciarCarrito() {
 
 // ── Proceder al pago ──
 function procederPago() {
-  // Por ahora redirige a una página de confirmación
-  alert('Funcionalidad de pago próximamente.');
+  window.location.href = 'pedidos.html';
 }
-
+ 
 // ── INIT ──
 cargarCarrito();

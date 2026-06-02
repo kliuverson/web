@@ -7,6 +7,7 @@ const productRoutes  = require('./routes/product.routes');
 const categoryRoutes = require('./routes/category.routes');
 const cartRoutes     = require('./routes/cart.routes');
 const favoriteRoutes = require('./routes/favorite.routes');
+const orderRoutes = require('./routes/order.routes');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -22,6 +23,7 @@ app.use('/productos',  productRoutes);
 app.use('/categorias', categoryRoutes);
 app.use('/carrito',    cartRoutes);
 app.use('/favoritos', favoriteRoutes);
+app.use('/pedidos', orderRoutes);
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/pages/index.html'));
 });
