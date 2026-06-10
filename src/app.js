@@ -10,6 +10,7 @@ const cartRoutes        = require('./routes/cart.routes');
 const favoriteRoutes    = require('./routes/favorite.routes');
 const orderRoutes       = require('./routes/order.routes');
 const direccionesRoutes = require('./routes/direcciones.routes');
+const wompiRoutes = require('./routes/wompi.routes');
 
 // Rutas admin
 const adminRoutes         = require('./routes/admin.router');
@@ -30,6 +31,8 @@ app.use('/carrito',         cartRoutes);
 app.use('/favoritos',       favoriteRoutes);
 app.use('/pedidos',         orderRoutes);
 app.use('/api/direcciones', direccionesRoutes);
+app.use('/api/wompi', wompiRoutes);
+
 
 // ── Rutas admin ──
 app.use('/admin/categorias', adminCategoryRoutes);
