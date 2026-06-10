@@ -1,13 +1,16 @@
 // ── CAROUSEL HERO ──
 const heroTrack = document.getElementById('heroTrack');
-const heroDots  = document.querySelectorAll('.carousel-dot');
+const heroDots = document.querySelectorAll('.carousel-dot');
 let heroCurrentIndex = 0;
 const heroTotalSlides = 3;
 
 function heroGoTo(n) {
   if (!heroTrack) return;
+
   heroCurrentIndex = (n + heroTotalSlides) % heroTotalSlides;
+
   heroTrack.style.transform = `translateX(-${heroCurrentIndex * 100}%)`;
+
   heroDots.forEach((d, i) => {
     d.classList.toggle('active', i === heroCurrentIndex);
     d.setAttribute('aria-selected', i === heroCurrentIndex);
@@ -18,14 +21,31 @@ if (heroTrack) {
   const heroPrev = document.getElementById('heroPrev');
   const heroNext = document.getElementById('heroNext');
 
-  if (heroPrev) heroPrev.addEventListener('click', () => heroGoTo(heroCurrentIndex - 1));
-  if (heroNext) heroNext.addEventListener('click', () => heroGoTo(heroCurrentIndex + 1));
-  heroDots.forEach(d => d.addEventListener('click', () => heroGoTo(+d.dataset.index)));
+  if (heroPrev) {
+    heroPrev.addEventListener('click', () => {
+      heroGoTo(heroCurrentIndex - 1);
+    });
+  }
 
-  const heroAutoplay = setInterval(() => heroGoTo(heroCurrentIndex + 1), 5000);
+  if (heroNext) {
+    heroNext.addEventListener('click', () => {
+      heroGoTo(heroCurrentIndex + 1);
+    });
+  }
 
-  const heroCarousel = document.querySelector('.hero-carousel');
-  if (heroCarousel) heroCarousel.addEventListener('mouseenter', () => clearInterval(heroAutoplay));
+  heroDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      heroGoTo(Number(dot.dataset.index));
+    });
+  });
+
+  // Iniciar en la primera diapositiva
+  heroGoTo(0);
+
+  // Cambio automático cada 5 segundos
+  setInterval(() => {
+    heroGoTo(heroCurrentIndex + 1);
+  }, 5000);
 }
 
 // ── MENÚ LATERAL (hamburguesa) ──

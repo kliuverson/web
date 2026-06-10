@@ -67,8 +67,13 @@ async function iniciarSesion() {
       storage.setItem('fm_usuario', JSON.stringify(data.usuario));
 
       mostrarExito('¡Bienvenido! Redirigiendo...');
-      setTimeout(() => { window.location.href = '../pages/index.html'; }, 1200);
-
+      setTimeout(() => {
+   if (data.usuario.rol === 'admin') {
+    window.location.href = '../pages/admin/dashboard.html';
+     } else {
+    window.location.href = '../pages/index.html';
+    }
+    }, 1200);
     } else {
       mostrarError(data.error || 'Correo o contraseña incorrectos.');
     }

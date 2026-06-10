@@ -23,7 +23,6 @@ const CAT_IMAGES = {
   'Construcción':             'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',
 };
 
-// ── Helpers de sesión ──
 function getToken() {
   return localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
 }
@@ -31,7 +30,6 @@ function estaLogueado() {
   return !!getToken();
 }
 
-// ── Leer ?id= de la URL ──
 const params     = new URLSearchParams(window.location.search);
 const productoId = params.get('id');
 
@@ -86,6 +84,10 @@ async function cargarProducto() {
           <p class="detalle-descripcion">${p.descripcion || 'Producto de ferretería de alta calidad.'}</p>
           <div class="detalle-meta">
             <div class="detalle-meta-item">
+              <span class="label">Ref</span>
+              <span class="value">SIN_COD</span>
+            </div>
+            <div class="detalle-meta-item">
               <span class="label">Código</span>
               <span class="value">#${p.id_producto}</span>
             </div>
@@ -93,6 +95,11 @@ async function cargarProducto() {
               <span class="label">Categoría</span>
               <span class="value">${catNombre}</span>
             </div>
+            ${p.talla ? `
+            <div class="detalle-meta-item">
+              <span class="label">Talla</span>
+              <span class="value">${p.talla}</span>
+            </div>` : ''}
             <div class="detalle-meta-item">
               <span class="label">Disponibilidad</span>
               <span class="value" style="color:#2ecc71">✓ En stock</span>
@@ -113,7 +120,6 @@ async function cargarProducto() {
     `;
     main.appendChild(detalle);
 
-    // ── Cantidad ──
     document.getElementById('qtyMenos').addEventListener('click', () => {
       const input = document.getElementById('qtyInput');
       if (parseInt(input.value) > 1) input.value = parseInt(input.value) - 1;
@@ -123,13 +129,11 @@ async function cargarProducto() {
       input.value = parseInt(input.value) + 1;
     });
 
-    // ── Agregar al carrito (llama a la API) ──
     document.getElementById('btnCarrito').addEventListener('click', async () => {
       const btn      = document.getElementById('btnCarrito');
       const cantidad = parseInt(document.getElementById('qtyInput').value);
       const msg      = document.getElementById('msgCarrito');
 
-      // Si no está logueado, redirigir al login
       if (!estaLogueado()) {
         msg.innerHTML = `<p style="color:#e8b84b;font-size:13px;margin-bottom:12px">⚠️ Debes <a href="login.html" style="color:#e85d04;font-weight:700">iniciar sesión</a> para agregar al carrito.</p>`;
         return;
@@ -150,7 +154,6 @@ async function cargarProducto() {
 
         if (!res.ok) throw new Error();
 
-        // Éxito
         btn.textContent = '✓ Agregado';
         btn.classList.add('agregado');
         msg.innerHTML = `<p style="color:#2ecc71;font-size:13px;margin-bottom:12px">✓ Producto agregado al carrito. <a href="carrito.html" style="color:#e85d04;font-weight:700">Ver carrito →</a></p>`;

@@ -23,17 +23,14 @@ const CAT_IMAGES = {
   'Construcción':             'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=200&q=80',
 };
 
-// ── Obtener token ──
 function getToken() {
   return localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
 }
 
-// ── Verificar si está logueado ──
 function estaLogueado() {
   return !!getToken();
 }
 
-// ── Headers con token ──
 function authHeaders() {
   return {
     'Content-Type': 'application/json',
@@ -41,12 +38,10 @@ function authHeaders() {
   };
 }
 
-// ── Cargar carrito desde la API ──
 async function cargarCarrito() {
   const contenido = document.getElementById('carritoContenido');
   const subtitulo = document.getElementById('carritoSubtitulo');
 
-  // Si no está logueado mostrar mensaje
   if (!estaLogueado()) {
     subtitulo.textContent = '';
     contenido.innerHTML = `
@@ -59,7 +54,6 @@ async function cargarCarrito() {
     return;
   }
 
-  // Mostrar skeletons
   contenido.innerHTML = `
     <div class="carrito-grid">
       <div class="carrito-items">
@@ -80,7 +74,6 @@ async function cargarCarrito() {
   }
 }
 
-// ── Renderizar carrito ──
 function renderCarrito(data) {
   const contenido = document.getElementById('carritoContenido');
   const subtitulo = document.getElementById('carritoSubtitulo');
@@ -102,20 +95,16 @@ function renderCarrito(data) {
 
   subtitulo.textContent = `${items.length} producto${items.length > 1 ? 's' : ''} en tu carrito`;
 
-  // Calcular totales
   const subtotal = items.reduce((acc, i) => acc + (parseFloat(i.precio) * i.cantidad), 0);
   const envio    = subtotal >= 200000 ? 0 : 15000;
   const total    = subtotal + envio;
 
-  // Actualizar badge
-  const totalItems = items.reduce((acc, i) => acc + i.cantidad, 0);
-  document.getElementById('cartBadge').textContent = totalItems;
+  document.getElementById('cartBadge').textContent = items.length;
 
   const itemsHTML = items.map(item => {
     const icon   = CAT_ICONS[item.categoria] || '📦';
-    const imgSrc = CAT_IMAGES[item.categoria];
+    const imgSrc = item.imagen_url || CAT_IMAGES[item.categoria];
     const precio = parseFloat(item.precio);
-    const subtotalItem = precio * item.cantidad;
 
     return `
       <div class="carrito-item" id="item-${item.id_producto}">
@@ -129,13 +118,14 @@ function renderCarrito(data) {
           <div class="item-nombre">${item.nombre}</div>
           <div class="item-precio">
             ${precio > 0
-              ? `$${subtotalItem.toLocaleString('es-CO')}`
+              ? `$${precio.toLocaleString('es-CO')}`
               : 'Consultar precio'}
           </div>
         </div>
         <div class="item-acciones">
           <div class="qty-control">
-            <button class="qty-btn" onclick="cambiarCantidad(${item.id_producto}, ${item.cantidad - 1})">−</button>
+            <button class="qty-btn" onclick="cambiarCantidad(${item.id_producto}, ${item.cantidad - 1})"
+              ${item.cantidad <= 1 ? 'disabled style="opacity:0.3;cursor:not-allowed;"' : ''}>−</button>
             <span class="qty-num">${item.cantidad}</span>
             <button class="qty-btn" onclick="cambiarCantidad(${item.id_producto}, ${item.cantidad + 1})">+</button>
           </div>
@@ -153,12 +143,14 @@ function renderCarrito(data) {
       <div class="carrito-resumen">
         <div class="resumen-titulo">Resumen del pedido</div>
         <div class="resumen-linea">
-          <span>Subtotal (${totalItems} items)</span>
+          <span>Subtotal (${items.length} items)</span>
           <span>$${subtotal.toLocaleString('es-CO')}</span>
         </div>
         <div class="resumen-linea">
           <span>Envío</span>
-          <span>${envio === 0 ? '<span style="color:#2ecc71">Gratis</span>' : '$' + envio.toLocaleString('es-CO')}</span>
+          <span>${envio === 0
+            ? '<span style="color:#2ecc71">Gratis</span>'
+            : '$' + envio.toLocaleString('es-CO')}</span>
         </div>
         <div class="resumen-linea total">
           <span>Total</span>
@@ -175,8 +167,8 @@ function renderCarrito(data) {
   `;
 }
 
-// ── Cambiar cantidad ──
 async function cambiarCantidad(id_producto, cantidad) {
+  if (cantidad < 1) return;
   try {
     const res = await fetch(`${API_BASE}/carrito/${id_producto}`, {
       method: 'PUT',
@@ -191,7 +183,6 @@ async function cambiarCantidad(id_producto, cantidad) {
   }
 }
 
-// ── Eliminar item ──
 async function eliminarItem(id_producto) {
   try {
     const res = await fetch(`${API_BASE}/carrito/${id_producto}`, {
@@ -206,25 +197,57 @@ async function eliminarItem(id_producto) {
   }
 }
 
-// ── Vaciar carrito ──
-async function vaciarCarrito() {
-  if (!confirm('¿Seguro que quieres vaciar el carrito?')) return;
-  try {
-    const res = await fetch(`${API_BASE}/carrito/vaciar`, {
-      method: 'DELETE',
-      headers: authHeaders()
-    });
-    if (!res.ok) throw new Error();
-    cargarCarrito();
-  } catch (err) {
-    console.error('Error vaciando carrito');
-  }
+function vaciarCarrito() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.7);
+    display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);`;
+
+  overlay.innerHTML = `
+    <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;
+      padding:32px;max-width:420px;width:90%;text-align:center;">
+      <div style="font-size:40px;margin-bottom:16px;">🛒</div>
+      <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:22px;
+        font-weight:900;margin-bottom:8px;color:#fff;text-transform:uppercase;">
+        ¿Vaciar carrito?
+      </h3>
+      <p style="color:#888;font-size:14px;margin-bottom:24px;">
+        Se eliminarán todos los productos de tu carrito.<br>
+        Esta acción no se puede deshacer.
+      </p>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <button id="btnCancelarVaciar" style="padding:12px 28px;background:transparent;
+          border:2px solid #444;color:#fff;border-radius:4px;cursor:pointer;
+          font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;
+          text-transform:uppercase;">Cancelar</button>
+        <button id="btnConfirmarVaciar" style="padding:12px 28px;background:#e53e3e;
+          border:none;color:#fff;border-radius:4px;cursor:pointer;
+          font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;
+          text-transform:uppercase;">Sí, vaciar</button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+  document.getElementById('btnCancelarVaciar').onclick = () => overlay.remove();
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+
+  document.getElementById('btnConfirmarVaciar').onclick = async () => {
+    overlay.remove();
+    try {
+      const res = await fetch(`${API_BASE}/carrito/vaciar`, {
+        method: 'DELETE',
+        headers: authHeaders()
+      });
+      if (!res.ok) throw new Error();
+      cargarCarrito();
+    } catch (err) {
+      console.error('Error vaciando carrito');
+    }
+  };
 }
 
-// ── Proceder al pago ──
 function procederPago() {
   window.location.href = 'pedidos.html';
 }
- 
-// ── INIT ──
+
 cargarCarrito();

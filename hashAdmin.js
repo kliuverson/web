@@ -1,0 +1,1 @@
+const bcrypt = require('bcrypt'); const contrasena = '051304f@#'; bcrypt.hash(contrasena, 10).then(hash => { console.log(hash); console.log('UPDATE usuarios SET contrasena = \'' + hash + '\' WHERE correo = \'admin@ferremateriales.com\';'); });
