@@ -11,4 +11,24 @@ const getById = async (id) => {
   return rows[0];
 };
 
-module.exports = { getAll, getById };
+const create = async (nombre, descripcion = '') => {
+  const [result] = await db.query(
+    'INSERT INTO categorias (nombre, descripcion) VALUES (?, ?)',
+    [nombre, descripcion]
+  );
+  return { id_categoria: result.insertId, nombre, descripcion };
+};
+
+const update = async (id, nombre, descripcion = '') => {
+  await db.query(
+    'UPDATE categorias SET nombre = ?, descripcion = ? WHERE id_categoria = ?',
+    [nombre, descripcion, id]
+  );
+  return getById(id);
+};
+
+const remove = async (id) => {
+  await db.query('DELETE FROM categorias WHERE id_categoria = ?', [id]);
+};
+
+module.exports = { getAll, getById, create, update, remove };

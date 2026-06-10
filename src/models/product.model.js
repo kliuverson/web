@@ -1,7 +1,6 @@
 // src/models/product.model.js
 const db = require('../config/db');
 
-// Todos los productos con categoría e imagen
 const getAll = async () => {
   const [rows] = await db.query(`
     SELECT p.*, c.nombre AS categoria, d.imagen_url
@@ -13,7 +12,6 @@ const getAll = async () => {
   return rows;
 };
 
-// 20 productos por categoría con imagen
 const getByCategoria = async (id_categoria) => {
   const [rows] = await db.query(`
     SELECT p.*, c.nombre AS categoria, d.imagen_url
@@ -26,7 +24,6 @@ const getByCategoria = async (id_categoria) => {
   return rows;
 };
 
-// Un producto por ID con imagen
 const getById = async (id) => {
   const [rows] = await db.query(`
     SELECT p.*, c.nombre AS categoria, d.imagen_url
@@ -39,22 +36,22 @@ const getById = async (id) => {
 };
 
 const create = async (product) => {
-  const { id_categoria, nombre, descripcion, precio, stock_minimo } = product;
+  const { id_categoria, nombre, descripcion, precio, stock_minimo, talla = null } = product;
   const [result] = await db.query(
-    `INSERT INTO productos (id_categoria, nombre, descripcion, precio, stock_minimo)
-     VALUES (?, ?, ?, ?, ?)`,
-    [id_categoria, nombre, descripcion, precio, stock_minimo]
+    `INSERT INTO productos (id_categoria, nombre, descripcion, talla, precio, stock_minimo)
+     VALUES (?, ?, ?, ?, ?, ?)`,
+    [id_categoria, nombre, descripcion, talla, precio, stock_minimo]
   );
   return { id_producto: result.insertId, ...product };
 };
 
 const update = async (id, product) => {
-  const { id_categoria, nombre, descripcion, precio, stock_minimo } = product;
+  const { id_categoria, nombre, descripcion, precio, stock_minimo, talla = null } = product;
   await db.query(
     `UPDATE productos
-     SET id_categoria=?, nombre=?, descripcion=?, precio=?, stock_minimo=?
+     SET id_categoria=?, nombre=?, descripcion=?, talla=?, precio=?, stock_minimo=?
      WHERE id_producto=?`,
-    [id_categoria, nombre, descripcion, precio, stock_minimo, id]
+    [id_categoria, nombre, descripcion, talla, precio, stock_minimo, id]
   );
   return { id_producto: id, ...product };
 };
