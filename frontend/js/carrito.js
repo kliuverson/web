@@ -98,6 +98,7 @@ function renderCarrito(data) {
   const subtotal = items.reduce((acc, i) => acc + (parseFloat(i.precio) * i.cantidad), 0);
   const envio    = subtotal >= 200000 ? 0 : 15000;
   const total    = subtotal + envio;
+  window.totalCarritoActual = total;
 
   document.getElementById('cartBadge').textContent = items.length;
 
@@ -246,8 +247,40 @@ function vaciarCarrito() {
   };
 }
 
-function procederPago() {
-  window.location.href = 'pedidos.html';
-}
+async function procederPago() {
 
+  try {
+
+    const response = await fetch(
+      `${API_BASE}/api/wompi/checkout`,
+      {
+        method: 'POST',
+        headers: authHeaders(),
+        body: JSON.stringify({
+          total: window.totalCarritoActual
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    const checkoutUrl =
+      `https://checkout.wompi.co/p/?public-key=${data.publicKey}` +
+      `&currency=COP` +
+      `&amount-in-cents=${data.amountInCents}` +
+      `&reference=${data.reference}` +
+      `&redirect-url=${encodeURIComponent(data.redirectUrl)}` +
+      `&signature:integrity=${data.signature}`;
+
+    window.location.href = checkoutUrl;
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert(
+      'No fue posible iniciar el pago.'
+    );
+  }
+}
 cargarCarrito();
