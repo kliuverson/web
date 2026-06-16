@@ -1,7 +1,11 @@
-const API_BASE_SCRIPT = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:3000'
-  : 'https://feel-revenue-tamper.ngrok-free.dev';
+const API_BASE =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://feel-revenue-tamper.ngrok-free.dev';
 
+const API_AUTH = `${API_BASE}/api/auth`;
+    
 document.addEventListener('DOMContentLoaded', () => {
 
   const usuario = JSON.parse(
@@ -137,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btnGuardar.disabled    = true;
 
       try {
-        const res = await fetch(`${API}/actualizar`, {
+        const res = await fetch(`${API_AUTH}/actualizar`, {
           method: 'PUT',
           headers: {
             'Content-Type':  'application/json',

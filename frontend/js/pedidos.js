@@ -1,8 +1,23 @@
 // frontend/js/pedidos.js
-const API_BASE_SCRIPT = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
   ? 'http://localhost:3000'
   : 'https://feel-revenue-tamper.ngrok-free.dev';
-// ── Cargar info del usuario ──
+
+// ── Recuperar token de URL si viene de ngrok ──
+const urlParams = new URLSearchParams(window.location.search);
+const tokenUrl  = urlParams.get('token');
+if (tokenUrl) {
+  localStorage.setItem('fm_token', tokenUrl);
+  const usuarioUrl = urlParams.get('usuario');
+  if (usuarioUrl) {
+    localStorage.setItem('fm_usuario', decodeURIComponent(usuarioUrl));
+  }
+}
+
+function getToken() {
+  return localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
+}
+
 function cargarUsuario() {
   const usuario = JSON.parse(
     localStorage.getItem('fm_usuario') ||
@@ -10,13 +25,12 @@ function cargarUsuario() {
   );
   if (!usuario) { window.location.href = 'login.html'; return; }
 
-  const iniciales = usuario.nombre.split(' ').slice(0,2).map(p => p[0].toUpperCase()).join('');
-  document.getElementById('avatarEl').textContent  = iniciales;
-  document.getElementById('nombreEl').textContent  = usuario.nombre.toUpperCase();
-  document.getElementById('correoEl').textContent  = usuario.correo;
+  const iniciales = usuario.nombre.split(' ').slice(0, 2).map(p => p[0].toUpperCase()).join('');
+  document.getElementById('avatarEl').textContent = iniciales;
+  document.getElementById('nombreEl').textContent = usuario.nombre.toUpperCase();
+  document.getElementById('correoEl').textContent = usuario.correo;
 }
 
-// ── Cargar pedidos ──
 async function cargarPedidos() {
   const token = getToken();
   if (!token) { window.location.href = 'login.html'; return; }
@@ -34,13 +48,12 @@ async function cargarPedidos() {
   }
 }
 
-// ── Render pedidos ──
 function renderPedidos(pedidos) {
   const contenido = document.getElementById('pedidosContenido');
-  const total     = document.getElementById('totalPedidos');
+  const totalEl   = document.getElementById('totalPedidos');
 
   if (!pedidos || pedidos.length === 0) {
-    total.textContent = '';
+    totalEl.textContent = '';
     contenido.innerHTML = `
       <div class="empty-pedidos">
         <div class="icono">📦</div>
@@ -52,13 +65,13 @@ function renderPedidos(pedidos) {
     return;
   }
 
-  total.textContent = `${pedidos.length} pedido${pedidos.length > 1 ? 's' : ''}`;
+  totalEl.textContent = `${pedidos.length} pedido${pedidos.length > 1 ? 's' : ''}`;
   contenido.innerHTML = '';
 
   pedidos.forEach(p => {
-    const fecha  = new Date(p.fecha_pedido).toLocaleDateString('es-CO', { year:'numeric', month:'long', day:'numeric' });
-    const total  = parseFloat(p.total);
-    const card   = document.createElement('div');
+    const fecha = new Date(p.fecha_pedido).toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+    const total = parseFloat(p.total);
+    const card  = document.createElement('div');
     card.className = 'pedido-card';
     card.innerHTML = `
       <div class="pedido-header">
@@ -78,7 +91,6 @@ function renderPedidos(pedidos) {
   });
 }
 
-// ── Ver detalle de un pedido ──
 async function verDetalle(id_pedido) {
   const token = getToken();
   try {
@@ -93,7 +105,6 @@ async function verDetalle(id_pedido) {
   }
 }
 
-// ── Mostrar modal ──
 function mostrarModal(pedido) {
   const CAT_ICONS = {
     'Herramientas Manuales': '🔨', 'Herramientas Eléctricas': '⚡',
@@ -106,8 +117,8 @@ function mostrarModal(pedido) {
   const contenido = document.getElementById('modalContenido');
 
   const itemsHTML = pedido.items.map(item => {
-    const icon    = CAT_ICONS[item.categoria] || '📦';
-    const precio  = parseFloat(item.precio_unitario);
+    const icon     = CAT_ICONS[item.categoria] || '📦';
+    const precio   = parseFloat(item.precio_unitario);
     const subtotal = precio * item.cantidad;
     return `
       <div class="modal-item">
@@ -125,8 +136,8 @@ function mostrarModal(pedido) {
     `;
   }).join('');
 
-  const fecha  = new Date(pedido.fecha_pedido).toLocaleDateString('es-CO', { year:'numeric', month:'long', day:'numeric' });
-  const total  = parseFloat(pedido.total);
+  const fecha = new Date(pedido.fecha_pedido).toLocaleDateString('es-CO', { year: 'numeric', month: 'long', day: 'numeric' });
+  const total = parseFloat(pedido.total);
 
   contenido.innerHTML = `
     <div style="margin-bottom:16px; display:flex; justify-content:space-between; align-items:center;">
@@ -149,19 +160,18 @@ function cerrarModal() {
   document.body.style.overflow = '';
 }
 
-// Cerrar modal al hacer clic fuera
 document.getElementById('modalPedido').addEventListener('click', (e) => {
   if (e.target === document.getElementById('modalPedido')) cerrarModal();
 });
 
-// Cerrar sesión
 document.querySelector('.snav-logout').addEventListener('click', (e) => {
   e.preventDefault();
-  localStorage.removeItem('fm_token'); localStorage.removeItem('fm_usuario');
-  sessionStorage.removeItem('fm_token'); sessionStorage.removeItem('fm_usuario');
+  localStorage.removeItem('fm_token');
+  localStorage.removeItem('fm_usuario');
+  sessionStorage.removeItem('fm_token');
+  sessionStorage.removeItem('fm_usuario');
   window.location.href = 'login.html';
 });
 
-// ── INIT ──
 cargarUsuario();
 cargarPedidos();

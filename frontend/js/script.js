@@ -1,3 +1,10 @@
+const BASE_URL =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+    ? 'https://feel-revenue-tamper.ngrok-free.dev'
+    : window.location.origin;
+    
+
 // ── CAROUSEL HERO ──
 const heroTrack = document.getElementById('heroTrack');
 const heroDots = document.querySelectorAll('.carousel-dot');
@@ -6,11 +13,8 @@ const heroTotalSlides = 3;
 
 function heroGoTo(n) {
   if (!heroTrack) return;
-
   heroCurrentIndex = (n + heroTotalSlides) % heroTotalSlides;
-
   heroTrack.style.transform = `translateX(-${heroCurrentIndex * 100}%)`;
-
   heroDots.forEach((d, i) => {
     d.classList.toggle('active', i === heroCurrentIndex);
     d.setAttribute('aria-selected', i === heroCurrentIndex);
@@ -20,32 +24,11 @@ function heroGoTo(n) {
 if (heroTrack) {
   const heroPrev = document.getElementById('heroPrev');
   const heroNext = document.getElementById('heroNext');
-
-  if (heroPrev) {
-    heroPrev.addEventListener('click', () => {
-      heroGoTo(heroCurrentIndex - 1);
-    });
-  }
-
-  if (heroNext) {
-    heroNext.addEventListener('click', () => {
-      heroGoTo(heroCurrentIndex + 1);
-    });
-  }
-
-  heroDots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      heroGoTo(Number(dot.dataset.index));
-    });
-  });
-
-  // Iniciar en la primera diapositiva
+  if (heroPrev) heroPrev.addEventListener('click', () => heroGoTo(heroCurrentIndex - 1));
+  if (heroNext) heroNext.addEventListener('click', () => heroGoTo(heroCurrentIndex + 1));
+  heroDots.forEach(dot => dot.addEventListener('click', () => heroGoTo(Number(dot.dataset.index))));
   heroGoTo(0);
-
-  // Cambio automático cada 5 segundos
-  setInterval(() => {
-    heroGoTo(heroCurrentIndex + 1);
-  }, 5000);
+  setInterval(() => heroGoTo(heroCurrentIndex + 1), 5000);
 }
 
 // ── MENÚ LATERAL (hamburguesa) ──
@@ -89,6 +72,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
   });
 });
+
 // ── BOTÓN CARRITO → carrito.html ──
 const cartBtn = document.querySelector('.cart-btn');
 if (cartBtn) {
@@ -98,12 +82,17 @@ if (cartBtn) {
   });
 }
 
+// ── API BASE DINÁMICO ──
+const API_SCRIPT = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000'
+  : 'https://feel-revenue-tamper.ngrok-free.dev';
+
 // ── CONTADOR CARRITO EN NAVBAR ──
 async function actualizarContadorCarrito() {
   const token = localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
   if (!token) return;
   try {
-    const res = await fetch('http://localhost:3000/carrito', {
+    const res = await fetch(`${API_SCRIPT}/carrito`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (!res.ok) return;
