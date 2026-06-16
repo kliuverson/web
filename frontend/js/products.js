@@ -327,7 +327,7 @@ async function agregarAlCarrito(id, nombre) {
   }
 
   try {
-    const res = await fetch('http://localhost:3000/carrito', {
+    const res = await fetch(`${API_BASE}/carrito`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
