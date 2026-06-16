@@ -1,4 +1,8 @@
-const API = 'http://localhost:3000/api/auth';
+const API_BASE =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://feel-revenue-tamper.ngrok-free.dev';
 
 // ── Toggle contraseña ──
 document.getElementById('toggleBtn').addEventListener('click', () => {
@@ -38,10 +42,10 @@ function mostrarExito(msg) {
 
 // ── Iniciar sesión ──
 async function iniciarSesion() {
-  const correo     = document.getElementById('correo').value.trim();
+  const correo = document.getElementById('correo').value.trim();
   const contrasena = document.getElementById('contrasena').value;
-  const recordar   = document.getElementById('recordar').checked;
-  const btn        = document.getElementById('btnIngresar');
+  const recordar = document.getElementById('recordar').checked;
+  const btn = document.getElementById('btnIngresar');
 
   if (!correo || !contrasena) {
     mostrarError('Por favor completa todos los campos.');
@@ -52,34 +56,42 @@ async function iniciarSesion() {
   btn.textContent = 'VERIFICANDO...';
 
   try {
-    const res = await fetch(`${API}/login`, {
+    const res = await fetch(`${API_BASE}/api/auth/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ correo, contrasena }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        correo,
+        contrasena
+      })
     });
 
     const data = await res.json();
 
     if (res.ok) {
-      // Guardar token y usuario
       const storage = recordar ? localStorage : sessionStorage;
+
       storage.setItem('fm_token', data.token);
       storage.setItem('fm_usuario', JSON.stringify(data.usuario));
 
       mostrarExito('¡Bienvenido! Redirigiendo...');
+
       setTimeout(() => {
-   if (data.usuario.rol === 'admin') {
-    window.location.href = '../pages/admin/dashboard.html';
-     } else {
-    window.location.href = '../pages/index.html';
-    }
-    }, 1200);
+        if (data.usuario.rol === 'admin') {
+          window.location.href = `${API_BASE}/pages/admin/dashboard.html`;
+        } else {
+          window.location.href = `${API_BASE}/pages/index.html`;
+        }
+      }, 1200);
+
     } else {
       mostrarError(data.error || 'Correo o contraseña incorrectos.');
     }
 
-  } catch (e) {
-    mostrarError('No se pudo conectar con el servidor. Verifica que esté corriendo en el puerto 3000.');
+  } catch (error) {
+    console.error('Error de login:', error);
+    mostrarError('No se pudo conectar con el servidor.');
   } finally {
     btn.classList.remove('cargando');
     btn.innerHTML = `
@@ -95,5 +107,7 @@ async function iniciarSesion() {
 document.getElementById('btnIngresar').addEventListener('click', iniciarSesion);
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') iniciarSesion();
+  if (e.key === 'Enter') {
+    iniciarSesion();
+  }
 });

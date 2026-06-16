@@ -1,14 +1,16 @@
-const API_BASE = 'http://localhost:3000';
-let token = '';
-let usuarios = [];
+const API_BASE =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://feel-revenue-tamper.ngrok-free.dev';
 
 document.addEventListener('DOMContentLoaded', () => {
   const usuario = JSON.parse(
     localStorage.getItem('fm_usuario') ||
     sessionStorage.getItem('fm_usuario') || 'null'
   );
-  if (!usuario) { window.location.href = '../login.html'; return; }
-  if (usuario.rol !== 'admin') { window.location.href = '../index.html'; return; }
+  if (!usuario) { window.location.href = `${BASE_URL}/pages/login.html`; return; }
+  if (usuario.rol !== 'admin') { window.location.href = `${BASE_URL}/pages/index.html`; return; }
 
   token = localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
 
@@ -18,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('.admin-logout')?.addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.clear(); sessionStorage.clear();
-    window.location.href = '../login.html';
+    window.location.href = `${BASE_URL}/pages/login.html`;
   });
 
   document.getElementById('buscar').addEventListener('input', filtrar);

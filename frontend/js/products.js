@@ -1,10 +1,12 @@
 // ============================================================
 //  CONFIGURACIÓN API
 // ============================================================
-const API_BASE_SCRIPT = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:3000'
-  : 'https://feel-revenue-tamper.ngrok-free.dev';
-
+const API_BASE =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://feel-revenue-tamper.ngrok-free.dev';
+    
 const CAT_ICONS = {
   'Herramientas Manuales':    '🔨',
   'Herramientas Eléctricas':  '⚡',
@@ -55,15 +57,40 @@ async function cargarCategorias() {
 //  CARGAR PRODUCTOS DESDE API
 // ============================================================
 async function cargarProductos() {
+  const grid = document.getElementById('productsGrid');
+
+  if (!grid) {
+    console.error('No existe el elemento #productsGrid en el HTML');
+    return;
+  }
+
   try {
+    console.log('Consultando productos:', `${API_BASE}/productos`);
+
     const res = await fetch(`${API_BASE}/productos`);
-    if (!res.ok) throw new Error();
-    allProducts = await res.json();
-    await cargarFavoritos(); // cargar favoritos antes de renderizar
+
+    if (!res.ok) {
+      throw new Error(`Error HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+
+    console.log('Productos recibidos:', data);
+
+    allProducts = Array.isArray(data) ? data : [];
+
+    await cargarFavoritos();
+
     renderProductos(allProducts);
+
   } catch (err) {
-    document.getElementById('productsGrid').innerHTML =
-      `<div class="api-error">⚠️ No se pudieron cargar los productos. Verifica que el servidor esté corriendo.</div>`;
+    console.error('Error cargando productos:', err);
+
+    grid.innerHTML = `
+      <div class="api-error">
+        ⚠️ Error cargando productos: ${err.message}
+      </div>
+    `;
   }
 }
 
@@ -300,7 +327,7 @@ async function agregarAlCarrito(id, nombre) {
   }
 
   try {
-    const res = await fetch('http://localhost:3000/carrito', {
+    const res = await fetch(`${API_BASE}/carrito`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

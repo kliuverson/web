@@ -1,4 +1,8 @@
-const API_BASE = 'http://localhost:3000';
+const API_BASE =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://feel-revenue-tamper.ngrok-free.dev';
 
 const CAT_ICONS = {
   'Herramientas Manuales':    '🔨',
@@ -254,10 +258,12 @@ async function procederPago() {
       body: JSON.stringify({ total: window.totalCarritoActual })
     });
 
-    const data  = await response.json();
-    const token = getToken();
+    const data     = await response.json();
+    const token    = getToken();
+    const usuario  = JSON.parse(localStorage.getItem('fm_usuario') || 'null');
+    const usuarioEnc = usuario ? encodeURIComponent(JSON.stringify(usuario)) : '';
 
-    const redirectUrl = `${data.redirectUrl}?token=${encodeURIComponent(token)}`;
+    const redirectUrl = data.redirectUrl; // sin token en URL
 
     const checkoutUrl =
       `https://checkout.wompi.co/p/?public-key=${data.publicKey}` +

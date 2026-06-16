@@ -1,9 +1,9 @@
-const API_BASE = 'http://localhost:3000';
-let token = '';
-let productos = [];
-let categorias = [];
-let editandoId = null;
-
+const API_BASE =
+  window.location.hostname === 'localhost' ||
+  window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://feel-revenue-tamper.ngrok-free.dev';
+    
 document.addEventListener('DOMContentLoaded', () => {
   const usuario = JSON.parse(
     localStorage.getItem('fm_usuario') ||
