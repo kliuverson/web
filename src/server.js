@@ -12,6 +12,7 @@ const direccionesRoutes = require('./routes/direcciones.routes');
 const adminCatRoutes    = require('./routes/admin.category.routes');
 const adminRoutes       = require('./routes/admin.routes');
 const adminProductRoutes = require('./routes/admin.product.routes');
+const wompiRoutes = require('./routes/wompi.routes');
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -27,6 +28,7 @@ app.use('/carrito',    cartRoutes);
 app.use('/favoritos',  favoriteRoutes);
 app.use('/pedidos',    orderRoutes);
 app.use('/api/direcciones', direccionesRoutes);
+app.use('/api/wompi', wompiRoutes);
 
 app.use('/admin/categorias', adminCatRoutes);
 app.use('/admin/productos',  adminProductRoutes);

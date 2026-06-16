@@ -1,10 +1,7 @@
 // frontend/js/pedidos.js
-const API_BASE = 'http://localhost:3000';
-
-function getToken() {
-  return localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
-}
-
+const API_BASE_SCRIPT = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000'
+  : 'https://feel-revenue-tamper.ngrok-free.dev';
 // ── Cargar info del usuario ──
 function cargarUsuario() {
   const usuario = JSON.parse(

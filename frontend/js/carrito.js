@@ -1,4 +1,3 @@
-// frontend/js/carrito.js
 const API_BASE = 'http://localhost:3000';
 
 const CAT_ICONS = {
@@ -248,39 +247,32 @@ function vaciarCarrito() {
 }
 
 async function procederPago() {
-
   try {
+    const response = await fetch(`${API_BASE}/api/wompi/checkout`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify({ total: window.totalCarritoActual })
+    });
 
-    const response = await fetch(
-      `${API_BASE}/api/wompi/checkout`,
-      {
-        method: 'POST',
-        headers: authHeaders(),
-        body: JSON.stringify({
-          total: window.totalCarritoActual
-        })
-      }
-    );
+    const data  = await response.json();
+    const token = getToken();
 
-    const data = await response.json();
+    const redirectUrl = `${data.redirectUrl}?token=${encodeURIComponent(token)}`;
 
     const checkoutUrl =
       `https://checkout.wompi.co/p/?public-key=${data.publicKey}` +
       `&currency=COP` +
       `&amount-in-cents=${data.amountInCents}` +
       `&reference=${data.reference}` +
-      `&redirect-url=${encodeURIComponent(data.redirectUrl)}` +
+      `&redirect-url=${encodeURIComponent(redirectUrl)}` +
       `&signature:integrity=${data.signature}`;
 
     window.location.href = checkoutUrl;
 
   } catch (error) {
-
     console.error(error);
-
-    alert(
-      'No fue posible iniciar el pago.'
-    );
+    alert('No fue posible iniciar el pago.');
   }
 }
+
 cargarCarrito();

@@ -4,6 +4,7 @@ const API = 'http://localhost:3000/api/auth';
 const guardarSesion = (token, usuario) => {
   localStorage.setItem('fm_token', token);
   localStorage.setItem('fm_usuario', JSON.stringify(usuario));
+  console.log('Sesión guardada:', { token, usuario });
 };
 
 const obtenerSesion = () => {
