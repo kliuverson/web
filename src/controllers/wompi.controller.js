@@ -23,6 +23,14 @@ exports.generarCheckout = async (req, res) => {
       redirectUrl: process.env.WOMPI_REDIRECT_URL
     });
 
+    console.log({
+      publicKey: process.env.WOMPI_PUBLIC_KEY,
+      amountInCents,
+      reference,
+      signature,
+      redirectUrl: process.env.WOMPI_REDIRECT_URL
+    });
+
   } catch (error) {
     console.error(error);
 

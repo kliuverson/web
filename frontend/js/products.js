@@ -1,7 +1,9 @@
 // ============================================================
 //  CONFIGURACIÓN API
 // ============================================================
-const API_BASE = 'http://localhost:3000';
+const API_BASE_SCRIPT = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:3000'
+  : 'https://feel-revenue-tamper.ngrok-free.dev';
 
 const CAT_ICONS = {
   'Herramientas Manuales':    '🔨',

@@ -1,7 +1,6 @@
 // src/models/order.model.js
 const db = require('../config/db');
 
-// Obtener todos los pedidos del usuario
 const getPedidos = async (id_usuario) => {
   const [rows] = await db.query(`
     SELECT p.id_pedido, p.fecha_pedido, p.estado, p.total,
@@ -15,7 +14,6 @@ const getPedidos = async (id_usuario) => {
   return rows;
 };
 
-// Obtener detalle de un pedido
 const getPedidoById = async (id_pedido, id_usuario) => {
   const [pedido] = await db.query(`
     SELECT * FROM pedidos WHERE id_pedido = ? AND id_usuario = ?
@@ -38,30 +36,38 @@ const getPedidoById = async (id_pedido, id_usuario) => {
   return { ...pedido[0], items };
 };
 
-// Crear pedido desde el carrito
 const crearPedido = async (id_usuario) => {
   // Obtener carrito del usuario
-  const [carrito] = await db.query(
-    'SELECT * FROM carrito WHERE id_usuario = ?', [id_usuario]
+  const [carritos] = await db.query(
+    'SELECT * FROM carrito WHERE id_usuario = ? LIMIT 1', [id_usuario]
   );
-  if (!carrito[0]) throw new Error('No tienes carrito activo');
+  if (!carritos[0]) throw new Error('No tienes carrito activo');
 
+  const carrito = carritos[0];
+
+  // Obtener items del carrito
   const [items] = await db.query(`
     SELECT cd.id_producto, cd.cantidad, p.precio
     FROM carrito_detalle cd
     JOIN productos p ON cd.id_producto = p.id_producto
     WHERE cd.id_carrito = ?
-  `, [carrito[0].id_carrito]);
+  `, [carrito.id_carrito]);
 
   if (items.length === 0) throw new Error('El carrito está vacío');
 
   const total = items.reduce((acc, i) => acc + (parseFloat(i.precio) * i.cantidad), 0);
 
+  // Obtener dirección principal del usuario
+  const [direcciones] = await db.query(
+    'SELECT id_direccion FROM direcciones WHERE id_usuario = ? LIMIT 1', [id_usuario]
+  );
+  const id_direccion = direcciones[0]?.id_direccion || null;
+
   // Crear pedido
   const [result] = await db.query(`
-    INSERT INTO pedidos (id_usuario, fecha_pedido, estado, total)
-    VALUES (?, NOW(), 'pendiente', ?)
-  `, [id_usuario, total]);
+    INSERT INTO pedidos (id_usuario, fecha_pedido, estado, total, id_direccion)
+    VALUES (?, NOW(), 'pendiente', ?, ?)
+  `, [id_usuario, total, id_direccion]);
 
   const id_pedido = result.insertId;
 
@@ -74,7 +80,7 @@ const crearPedido = async (id_usuario) => {
   }
 
   // Vaciar carrito
-  await db.query('DELETE FROM carrito_detalle WHERE id_carrito = ?', [carrito[0].id_carrito]);
+  await db.query('DELETE FROM carrito_detalle WHERE id_carrito = ?', [carrito.id_carrito]);
 
   return getPedidoById(id_pedido, id_usuario);
 };
