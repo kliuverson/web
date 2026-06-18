@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recuperar contraseña — Ferremateriales</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../style/login.css"/>
+</head>
+<body>
+
+  <!-- ══ LADO IZQUIERDO ══ -->
+  <div class="lado-izq">
+
+    <div class="logo">
+      <div class="logo-icon">
+        <img src="../assets/icons/logo_recortado.png" alt="FERREMATERIALES">
+      </div>
+      <div class="logo-texto">
+        <h1>FERREMATERIALES</h1>
+        <span>Herramientas Pro · Desde 1998</span>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="badge">Acceso Profesional</div>
+      <h2>Pasa que<br>todos<br><em>olvidamos.</em></h2>
+      <p>No te preocupes, te enviaremos un enlace a tu correo para que crees una contraseña nueva en segundos.</p>
+    </div>
+
+    <div class="beneficios">
+      <div class="beneficio">
+        <span class="beneficio-icon">🚚</span>
+        <span class="beneficio-nombre">Envío 24h</span>
+      </div>
+      <div class="beneficio">
+        <span class="beneficio-icon">🛡️</span>
+        <span class="beneficio-nombre">Garantía PRO</span>
+      </div>
+      <div class="beneficio">
+        <span class="beneficio-icon">⭐</span>
+        <span class="beneficio-nombre">+25 años</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ LADO DERECHO ══ -->
+  <div class="lado-der">
+
+    <div class="form-contenedor">
+
+      <div class="form-header">
+        <p class="subtitulo">Recuperar acceso</p>
+        <h3>¿Olvidaste tu contraseña?</h3>
+        <p class="link-registro">Ingresa tu correo y te enviaremos un enlace para restablecerla.</p>
+      </div>
+
+      <!-- Mensajes -->
+      <div class="mensaje-error" id="msgError"></div>
+      <div class="mensaje-exito" id="msgExito"></div>
+
+      <!-- Campo correo -->
+      <div class="campo">
+        <label for="correo">Correo electrónico</label>
+        <div class="input-wrap">
+          <svg class="input-icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+          </svg>
+          <input type="email" id="correo" placeholder="tu@correo.com" autocomplete="email"/>
+        </div>
+      </div>
+
+      <!-- Botón enviar -->
+      <button class="btn-ingresar" id="btnEnviar">
+        ENVIAR ENLACE
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+
+      <p class="link-registro" style="text-align:center;">
+        <a href="../pages/login.html">← Volver a iniciar sesión</a>
+      </p>
+
+    </div>
+
+    <p class="pie">
+      Al continuar aceptas nuestros <a href="#">Términos</a> y <a href="#">Política de privacidad</a>. 
+      © 2025 Ferremateriales · Todos los derechos reservados
+    </p>
+
+  </div>
+
+  <script src="../js/olvido-contrasena.js"></script>
+</body>
+</html>
+
