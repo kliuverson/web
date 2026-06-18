@@ -1,11 +1,5 @@
-const API_BASE =
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000'
-    : 'https://feel-revenue-tamper.ngrok-free.dev';
-
-const API = `${API_BASE}/api/auth`;
-const API_DIR = `${API_BASE}/api/direcciones`;
+const API     = 'http://localhost:3000/api/auth';
+const API_DIR = 'http://localhost:3000/api/direcciones';
 
 let usuarioRegistrado = null;
 let tokenRegistrado   = null;
@@ -198,7 +192,7 @@ async function guardarDireccion() {
     if (!res.ok) throw new Error('Error al guardar dirección');
 
     mostrarExito('¡Registro completo! Redirigiendo...');
-    setTimeout(() => { window.location.href = '/pages/index.html'; }, 1500);
+    setTimeout(() => { window.location.href = '/frontend/pages/index.html'; }, 1500);
 
   } catch (e) {
     mostrarError('Error al guardar la dirección.');

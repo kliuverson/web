@@ -86,10 +86,12 @@ function renderTabla(data) {
             <td>$${parseFloat(p.total).toLocaleString('es-CO')}</td>
             <td><span class="admin-badge ${badgeClass[p.estado] || ''}">${p.estado}</span></td>
             <td>
-              <button class="admin-btn admin-btn-secondary admin-btn-sm"
-                onclick="abrirModal(${p.id_pedido}, '${(p.nombre||'').replace(/'/g,"\\'")}', '${p.estado}')">
-                ✏️ Estado
-              </button>
+              ${p.estado !== 'cancelado' && p.estado !== 'entregado' ? `
+                <button class="admin-btn admin-btn-secondary admin-btn-sm"
+                  onclick="abrirModal(${p.id_pedido}, '${(p.nombre||'').replace(/'/g,"\\'")}', '${p.estado}')">
+                  ✏️ Estado
+                </button>
+              ` : `<span style="color:#999; font-size:12px;">${p.estado === 'cancelado' ? 'Cancelado' : 'Finalizado'}</span>`}
             </td>
           </tr>
         `).join('')}
@@ -125,6 +127,7 @@ function cerrarModal() {
 async function guardarEstado() {
   const nuevoEstado = document.getElementById('selectEstado').value;
   const btn = document.getElementById('btnGuardarEstado');
+
   btn.textContent = 'Guardando...';
   btn.disabled = true;
 

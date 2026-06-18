@@ -282,6 +282,19 @@ body {
   border-color: #f87171;
 }
 
+/* Inputs bloqueados (ciudad y departamento fijos) */
+.input-wrap input[readonly] {
+  background: #17140e;
+  color: var(--texto-muted);
+  cursor: not-allowed;
+  border-color: var(--borde);
+}
+
+.input-wrap input[readonly]:focus {
+  border-color: var(--borde);
+  box-shadow: none;
+}
+
 .toggle-pass {
   position: absolute;
   right: 14px;
