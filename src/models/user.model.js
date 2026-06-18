@@ -30,4 +30,40 @@ const update = async (id, datos) => {
   return findById(id);
 };
 
-module.exports = { findByEmail, findById, create, update };
+// ── Recuperación de contraseña ──
+
+// Guarda el hash del token de recuperación y su fecha de expiración para el usuario con ese correo
+const setResetToken = async (correo, tokenHash, expira) => {
+  await db.query(
+    'UPDATE usuarios SET reset_token = ?, reset_token_expira = ? WHERE correo = ?',
+    [tokenHash, expira, correo]
+  );
+};
+
+// Busca un usuario por el hash del token, solo si aún no ha expirado
+const findByResetToken = async (tokenHash) => {
+  const [rows] = await db.query(
+    'SELECT * FROM usuarios WHERE reset_token = ? AND reset_token_expira > NOW()',
+    [tokenHash]
+  );
+  return rows[0];
+};
+
+// Actualiza la contraseña (ya hasheada) y limpia el token usado
+const updatePassword = async (id, contrasenaHash) => {
+  await db.query(
+    'UPDATE usuarios SET contrasena = ?, reset_token = NULL, reset_token_expira = NULL WHERE id_usuario = ?',
+    [contrasenaHash, id]
+  );
+};
+
+module.exports = {
+  findByEmail,
+  findById,
+  create,
+  update,
+  setResetToken,
+  findByResetToken,
+  updatePassword,
+};
+
