@@ -107,7 +107,7 @@ const login = async (req, res) => {
       return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
     }
 
-    if (!usuario.email_verificado) {
+    if (!usuario.email_verificado && usuario.rol !== 'admin') {
       return res.status(403).json({
         error: 'Debes verificar tu correo electrónico antes de iniciar sesión.'
       });
@@ -242,10 +242,174 @@ const verificarEmail = async (req, res) => {
 
     await User.verifyEmail(usuario.id_usuario);
 
-    res.send(`
-      <h2>✅ Correo verificado correctamente</h2>
-      <p>Ya puedes iniciar sesión en Ferremateriales.</p>
-    `);
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+
+res.send(`
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Correo verificado</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#111,#1b1b1b,#0d0d0d);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    overflow:hidden;
+}
+
+.card{
+    background:#fff;
+    width:420px;
+    max-width:90%;
+    border-radius:20px;
+    padding:40px;
+    text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.35);
+    animation:mostrar .6s ease;
+}
+
+.icono{
+    width:100px;
+    height:100px;
+    margin:auto;
+    background:#27ae60;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:55px;
+    color:white;
+    animation:pop .5s ease;
+}
+
+h1{
+    margin-top:25px;
+    color:#222;
+    font-size:28px;
+}
+
+p{
+    margin-top:15px;
+    color:#666;
+    line-height:1.6;
+    font-size:16px;
+}
+
+.contador{
+    margin-top:25px;
+    color:#ff6b00;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.loader{
+    width:100%;
+    height:6px;
+    background:#eee;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:25px;
+}
+
+.loader span{
+    display:block;
+    height:100%;
+    background:#ff6b00;
+    animation:carga 2s linear forwards;
+}
+
+@keyframes carga{
+    from{width:0%;}
+    to{width:100%;}
+}
+
+@keyframes mostrar{
+    from{
+        opacity:0;
+        transform:translateY(25px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+@keyframes pop{
+    0%{
+        transform:scale(.2);
+    }
+    70%{
+        transform:scale(1.15);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="icono">
+        ✓
+    </div>
+
+    <h1>¡Correo verificado!</h1>
+
+    <p>
+        Tu cuenta de <strong>Ferremateriales</strong> ha sido activada correctamente.
+        Ya puedes iniciar sesión.
+    </p>
+
+    <div class="loader">
+        <span></span>
+    </div>
+
+    <div class="contador">
+        Redirigiendo al inicio de sesión en
+        <span id="segundos">2</span>s...
+    </div>
+
+</div>
+
+<script>
+
+let segundos = 2;
+
+const contador = document.getElementById("segundos");
+
+const intervalo = setInterval(() => {
+    segundos--;
+    contador.textContent = segundos;
+
+    if(segundos <= 0){
+        clearInterval(intervalo);
+        window.location.href = "${frontendUrl}/pages/login.html";
+    }
+
+},1000);
+
+</script>
+
+</body>
+</html>
+`);
 
   } catch (err) {
     console.error(err);
