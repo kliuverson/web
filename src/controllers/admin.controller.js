@@ -2,6 +2,7 @@
 const model = require('../models/admin.model');
 const db    = require('../config/db');
 
+
 const statsProductos = async (req, res) => {
   try {
     const data = await model.getStatsProductos();

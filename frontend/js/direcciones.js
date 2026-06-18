@@ -4,10 +4,22 @@ const API_BASE =
     ? 'http://localhost:3000'
     : 'https://feel-revenue-tamper.ngrok-free.dev';
 
+const API = `${API_BASE}/api/direcciones`;
+
 let direccionEditando = null;
 
-document.addEventListener('DOMContentLoaded', () => {
+function obtenerToken() {
+  return localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
+}
 
+function authHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${obtenerToken()}`
+  };
+}
+
+document.addEventListener('DOMContentLoaded', () => {
   cargarUsuarioPerfil();
   cargarDirecciones();
 
@@ -16,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnCancelarDireccion')?.addEventListener('click', ocultarFormulario);
   document.getElementById('btnGuardarDireccion')?.addEventListener('click', guardarDireccion);
   document.querySelector('.snav-logout')?.addEventListener('click', cerrarSesion);
-
 });
 
 function obtenerUsuario() {
@@ -62,10 +73,15 @@ async function cargarDirecciones() {
     if (!usuario) { window.location.href = 'login.html'; return; }
 
     const idUsuario = usuario.id_usuario || usuario.id;
-    const loading = document.getElementById('dirLoading');
+    const loading   = document.getElementById('dirLoading');
     loading.style.display = 'block';
 
-    const res = await fetch(`${API}/${idUsuario}`);
+    const res = await fetch(`${API}/${idUsuario}`, {
+      headers: authHeaders()
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+
     const direcciones = await res.json();
 
     loading.style.display = 'none';
@@ -126,8 +142,8 @@ function ocultarFormulario() {
 function limpiarFormulario() {
   document.getElementById('inp-id-direccion').value = '';
   document.getElementById('inp-direccion').value    = '';
-  document.getElementById('inp-ciudad').value       = '';
-  document.getElementById('inp-departamento').value = '';
+  document.getElementById('inp-ciudad').value       = 'Barranquilla';
+  document.getElementById('inp-departamento').value = 'Atlántico';
   document.getElementById('inp-codigo').value       = '';
   document.getElementById('inp-pais').value         = 'Colombia';
 }
@@ -151,38 +167,38 @@ async function guardarDireccion() {
   const data = {
     id_usuario:    idUsuario,
     direccion:     document.getElementById('inp-direccion').value.trim(),
-    ciudad:        document.getElementById('inp-ciudad').value.trim(),
-    departamento:  document.getElementById('inp-departamento').value.trim(),
+    ciudad:        'Barranquilla',
+    departamento:  'Atlántico',
     codigo_postal: document.getElementById('inp-codigo').value.trim(),
     pais:          document.getElementById('inp-pais').value.trim()
   };
 
-  if (!data.direccion || !data.ciudad || !data.departamento) {
-    mostrarToast('Completa todos los campos obligatorios', true);
+  if (!data.direccion) {
+    mostrarToast('Ingresa la dirección', true);
     return;
   }
 
   try {
-    if (direccionEditando) {
-      await fetch(`${API}/${direccionEditando}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      mostrarToast('Dirección actualizada ✓');
-    } else {
-      await fetch(API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      mostrarToast('Dirección guardada ✓');
-    }
+    const url    = direccionEditando ? `${API}/${direccionEditando}` : API;
+    const metodo = direccionEditando ? 'PUT' : 'POST';
+
+    const res = await fetch(url, {
+      method: metodo,
+      headers: authHeaders(),
+      body: JSON.stringify(data)
+    });
+
+    const respuesta = await res.json();
+
+    if (!res.ok) throw new Error(respuesta.mensaje || respuesta.error || 'Error');
+
+    mostrarToast(direccionEditando ? 'Dirección actualizada ✓' : 'Dirección guardada ✓');
     ocultarFormulario();
     cargarDirecciones();
+
   } catch (error) {
     console.error(error);
-    mostrarToast('Error al guardar la dirección', true);
+    mostrarToast(error.message, true);
   }
 }
 
@@ -222,7 +238,16 @@ function confirmarEliminar(id) {
   document.getElementById('btnConfirmarEl').onclick = async () => {
     overlay.remove();
     try {
-      await fetch(`${API}/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${API}/${id}`, {
+        method: 'DELETE',
+        headers: authHeaders()
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.mensaje || data.error);
+      }
+
       mostrarToast('Dirección eliminada ✓');
       cargarDirecciones();
     } catch (error) {
