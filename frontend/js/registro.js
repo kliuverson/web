@@ -1,8 +1,10 @@
-const API     = 'http://localhost:3000/api/auth';
-const API_DIR = 'http://localhost:3000/api/direcciones';
+const BASE_URL =
+  'https://feel-revenue-tamper.ngrok-free.dev';
+const API = `${BASE_URL}/api/auth`;
+const API_DIR = `${BASE_URL}/api/direcciones`;
 
 let usuarioRegistrado = null;
-let tokenRegistrado   = null;
+let tokenRegistrado = null;
 
 document.getElementById('toggleBtn1').addEventListener('click', () => {
   togglePass('contrasena', 'iconoOjo1');
@@ -100,14 +102,14 @@ function validar(nombre, apellido, correo, documento, contrasena, confirmar, ter
 }
 
 async function registrarUsuario() {
-  const nombre     = document.getElementById('nombre').value.trim();
-  const apellido   = document.getElementById('apellido').value.trim();
-  const correo     = document.getElementById('correo').value.trim();
-  const documento  = document.getElementById('documento').value.trim();
+  const nombre = document.getElementById('nombre').value.trim();
+  const apellido = document.getElementById('apellido').value.trim();
+  const correo = document.getElementById('correo').value.trim();
+  const documento = document.getElementById('documento').value.trim();
   const contrasena = document.getElementById('contrasena').value;
-  const confirmar  = document.getElementById('confirmar').value;
-  const terminos   = document.getElementById('terminos').checked;
-  const btn        = document.getElementById('btnRegistrar');
+  const confirmar = document.getElementById('confirmar').value;
+  const terminos = document.getElementById('terminos').checked;
+  const btn = document.getElementById('btnRegistrar');
 
   if (!validar(nombre, apellido, correo, documento, contrasena, confirmar, terminos)) return;
 
@@ -129,7 +131,7 @@ async function registrarUsuario() {
       localStorage.setItem('fm_token', data.token);
       localStorage.setItem('fm_usuario', JSON.stringify(data.usuario));
       usuarioRegistrado = data.usuario;
-      tokenRegistrado   = data.token;
+      tokenRegistrado = data.token;
 
       document.getElementById('msgError').style.display = 'none';
       document.getElementById('msgExito').style.display = 'none';
@@ -154,11 +156,11 @@ async function registrarUsuario() {
 }
 
 async function guardarDireccion() {
-  const direccion    = document.getElementById('dir-direccion').value.trim();
-  const ciudad       = document.getElementById('dir-ciudad').value.trim();
+  const direccion = document.getElementById('dir-direccion').value.trim();
+  const ciudad = document.getElementById('dir-ciudad').value.trim();
   const departamento = document.getElementById('dir-departamento').value.trim();
-  const codigo       = document.getElementById('dir-codigo').value.trim();
-  const btn          = document.getElementById('btnGuardarDireccion');
+  const codigo = document.getElementById('dir-codigo').value.trim();
+  const btn = document.getElementById('btnGuardarDireccion');
 
   if (!direccion || !ciudad || !departamento) {
     mostrarError('Completa los campos obligatorios de la dirección.');
@@ -169,30 +171,37 @@ async function guardarDireccion() {
   btn.disabled = true;
 
   try {
-    const token   = tokenRegistrado || localStorage.getItem('fm_token');
+    const token = tokenRegistrado || localStorage.getItem('fm_token');
     const usuario = usuarioRegistrado || JSON.parse(localStorage.getItem('fm_usuario'));
     const idUsuario = usuario.id_usuario || usuario.id;
 
     const res = await fetch(API_DIR, {
       method: 'POST',
       headers: {
-        'Content-Type':  'application/json',
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
       body: JSON.stringify({
-        id_usuario:    idUsuario,
+        id_usuario: idUsuario,
         direccion,
         ciudad,
         departamento,
         codigo_postal: codigo,
-        pais:          'Colombia'
+        pais: 'Colombia'
       })
     });
 
     if (!res.ok) throw new Error('Error al guardar dirección');
 
-    mostrarExito('¡Registro completo! Redirigiendo...');
-    setTimeout(() => { window.location.href = '/frontend/pages/index.html'; }, 1500);
+    mostrarExito(
+      'Registro completado. Revisa tu correo electrónico para activar tu cuenta.'
+    );
+
+    setTimeout(() => {
+      localStorage.removeItem('fm_token');
+      localStorage.removeItem('fm_usuario');
+      window.location.href = 'login.html';
+    }, 3000);
 
   } catch (e) {
     mostrarError('Error al guardar la dirección.');

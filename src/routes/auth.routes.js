@@ -5,8 +5,12 @@ const verificarToken = require('../middlewares/auth.middleware');
 
 router.post('/registro', authController.registro);
 router.post('/login', authController.login);
+
+router.get('/verificar-email', authController.verificarEmail);
+
 router.post('/olvido-contrasena', authController.olvidoContrasena);
 router.post('/restablecer-contrasena', authController.restablecerContrasena);
+
 router.get('/perfil', verificarToken, authController.perfil);
 router.put('/actualizar', verificarToken, authController.actualizar);
 

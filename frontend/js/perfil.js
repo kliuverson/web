@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 
   if (!usuario) {
-    window.location.href = 'login.html';
+    window.location.href = '/pages/login.html';
     return;
   }
 
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.removeItem('fm_usuario');
       sessionStorage.removeItem('fm_token');
       sessionStorage.removeItem('fm_usuario');
-      window.location.href = 'login.html';
+      window.location.href = '/pages/login.html';
     });
   }
 

@@ -57,6 +57,42 @@ const updatePassword = async (id, contrasenaHash) => {
   );
 };
 
+// Guarda el token de verificación y su expiración
+const setVerificationToken = async (id, tokenHash, expira) => {
+  await db.query(
+    `UPDATE usuarios
+     SET token_verificacion = ?,
+         token_verificacion_expira = ?
+     WHERE id_usuario = ?`,
+    [tokenHash, expira, id]
+  );
+};
+
+// Busca un usuario por token de verificación válido
+const findByVerificationToken = async (tokenHash) => {
+  const [rows] = await db.query(
+    `SELECT *
+     FROM usuarios
+     WHERE token_verificacion = ?
+     AND token_verificacion_expira > NOW()`,
+    [tokenHash]
+  );
+
+  return rows[0];
+};
+
+// Marca el correo como verificado
+const verifyEmail = async (id) => {
+  await db.query(
+    `UPDATE usuarios
+     SET email_verificado = 1,
+         token_verificacion = NULL,
+         token_verificacion_expira = NULL
+     WHERE id_usuario = ?`,
+    [id]
+  );
+};
+
 module.exports = {
   findByEmail,
   findById,
@@ -65,5 +101,8 @@ module.exports = {
   setResetToken,
   findByResetToken,
   updatePassword,
+  setVerificationToken,
+  findByVerificationToken,
+  verifyEmail
 };
 

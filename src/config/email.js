@@ -39,5 +39,51 @@ const enviarCorreoRecuperacion = async (correoDestino, nombre, enlace) => {
   });
 };
 
-module.exports = { enviarCorreoRecuperacion };
+// Envía el correo de verificación de cuenta
+const enviarCorreoVerificacion = async (
+  correoDestino,
+  nombre,
+  enlace
+) => {
+  const html = `
+    <div style="font-family: Arial, sans-serif; background:#111009; padding:32px; color:#f0ece0;">
+      <div style="max-width:480px; margin:0 auto; background:#1a1710; border:1px solid #2e2a20; border-radius:10px; padding:32px;">
+        <h2 style="color:#F47B20; margin-top:0;">FERREMATERIALES</h2>
+
+        <p>Hola ${nombre || ''},</p>
+
+        <p>
+          Gracias por registrarte en Ferremateriales.
+          Para activar tu cuenta debes verificar tu correo electrónico.
+        </p>
+
+        <p style="text-align:center; margin:28px 0;">
+          <a href="${enlace}"
+             style="background:#F47B20; color:#fff; text-decoration:none; padding:14px 28px; border-radius:8px; font-weight:bold; display:inline-block;">
+            Verificar correo
+          </a>
+        </p>
+
+        <p>O copia y pega este enlace en tu navegador:</p>
+
+        <p style="word-break:break-all; color:#888070; font-size:13px;">
+          ${enlace}
+        </p>
+
+        <p style="color:#888070; font-size:13px;">
+          Este enlace vencerá en 24 horas.
+        </p>
+      </div>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: process.env.EMAIL_FROM || `"Ferremateriales" <${process.env.EMAIL_USER}>`,
+    to: correoDestino,
+    subject: 'Verifica tu cuenta — Ferremateriales',
+    html,
+  });
+};
+
+module.exports = { enviarCorreoRecuperacion, enviarCorreoVerificacion };
 

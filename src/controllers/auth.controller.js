@@ -2,25 +2,93 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const User = require('../models/user.model');
-const { enviarCorreoRecuperacion } = require('../config/email');
+const { enviarCorreoRecuperacion, enviarCorreoVerificacion } = require('../config/email');
 
 const registro = async (req, res) => {
   try {
     const { nombre, correo, contrasena, telefono, documento } = req.body;
+
     if (!nombre || !correo || !contrasena) {
-      return res.status(400).json({ error: 'Nombre, correo y contraseña son obligatorios' });
+      return res.status(400).json({
+        error: 'Nombre, correo y contraseña son obligatorios'
+      });
     }
+
     const existe = await User.findByEmail(correo);
+
     if (existe) {
-      return res.status(409).json({ error: 'El correo ya está registrado' });
+      return res.status(409).json({
+        error: 'El correo ya está registrado'
+      });
     }
+
     const hash = await bcrypt.hash(contrasena, 10);
-    const usuario = await User.create({ nombre, correo, contrasena: hash, telefono, documento });
-    const token = jwt.sign({ id: usuario.id, correo }, process.env.JWT_SECRET, { expiresIn: '7d' });
-    res.status(201).json({ mensaje: 'Usuario registrado correctamente', token, usuario });
+
+    const usuario = await User.create({
+      nombre,
+      correo,
+      contrasena: hash,
+      telefono,
+      documento
+    });
+
+    console.log(usuario);
+
+    // Token que recibirá el usuario
+    const tokenPlano = crypto.randomBytes(32).toString('hex');
+
+    // Hash que se guarda en BD
+    const tokenHash = crypto
+      .createHash('sha256')
+      .update(tokenPlano)
+      .digest('hex');
+
+    // Expira en 24 horas
+    const expira = new Date(
+      Date.now() + 24 * 60 * 60 * 1000
+    );
+
+    await User.setVerificationToken(
+      usuario.id,
+      tokenHash,
+      expira
+    );
+
+    const frontendUrl =
+      process.env.FRONTEND_URL ||
+      'http://localhost:3000';
+
+    const enlace =
+      `${frontendUrl}/api/auth/verificar-email?token=${tokenPlano}`;
+
+    await enviarCorreoVerificacion(
+      correo,
+      nombre,
+      enlace
+    );
+
+    const token = jwt.sign(
+      {
+        id: usuario.id,
+        correo: usuario.correo,
+        rol: 'cliente'
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.status(201).json({
+      mensaje:
+        'Usuario registrado correctamente. Revisa tu correo para activar la cuenta.',
+      token,
+      usuario
+    });
+
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    res.status(500).json({
+      error: 'Error interno del servidor'
+    });
   }
 };
 
@@ -38,15 +106,22 @@ const login = async (req, res) => {
     if (!valido) {
       return res.status(401).json({ error: 'Correo o contraseña incorrectos' });
     }
+
+    if (!usuario.email_verificado) {
+      return res.status(403).json({
+        error: 'Debes verificar tu correo electrónico antes de iniciar sesión.'
+      });
+    }
+
     const token = jwt.sign(
-  {
-    id: usuario.id_usuario,
-    correo: usuario.correo,
-    rol: usuario.rol
-  },
-  process.env.JWT_SECRET,
-  { expiresIn: '7d' }
-);
+      {
+        id: usuario.id_usuario,
+        correo: usuario.correo,
+        rol: usuario.rol
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '7d' }
+    );
     const { contrasena: _, ...datos } = usuario;
     res.json({ mensaje: 'Login exitoso', token, usuario: datos });
   } catch (err) {
@@ -146,5 +221,45 @@ const restablecerContrasena = async (req, res) => {
   }
 };
 
-module.exports = { registro, login, perfil, actualizar, olvidoContrasena, restablecerContrasena };
+const verificarEmail = async (req, res) => {
+  try {
+    const { token } = req.query;
+
+    if (!token) {
+      return res.status(400).send('Token inválido');
+    }
+
+    const tokenHash = crypto
+      .createHash('sha256')
+      .update(token)
+      .digest('hex');
+
+    const usuario = await User.findByVerificationToken(tokenHash);
+
+    if (!usuario) {
+      return res.status(400).send('El enlace es inválido o ha expirado.');
+    }
+
+    await User.verifyEmail(usuario.id_usuario);
+
+    res.send(`
+      <h2>✅ Correo verificado correctamente</h2>
+      <p>Ya puedes iniciar sesión en Ferremateriales.</p>
+    `);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error interno del servidor');
+  }
+};
+
+module.exports = {
+  registro,
+  login,
+  perfil,
+  actualizar,
+  olvidoContrasena,
+  restablecerContrasena,
+  verificarEmail
+};
 

@@ -1,9 +1,9 @@
 const BASE_URL =
   window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
+    window.location.hostname === '127.0.0.1'
     ? 'https://feel-revenue-tamper.ngrok-free.dev'
     : window.location.origin;
-    
+
 
 // ── CAROUSEL HERO ──
 const heroTrack = document.getElementById('heroTrack');
@@ -34,8 +34,8 @@ if (heroTrack) {
 // ── MENÚ LATERAL (hamburguesa) ──
 const hamburgerBtn = document.getElementById('hamburgerBtn');
 const closeMenuBtn = document.getElementById('closeMenuBtn');
-const sideMenu     = document.getElementById('sideMenu');
-const overlay      = document.getElementById('overlay');
+const sideMenu = document.getElementById('sideMenu');
+const overlay = document.getElementById('overlay');
 
 function openMenu() {
   if (!sideMenu || !overlay) return;
@@ -55,7 +55,7 @@ function closeMenu() {
 
 if (hamburgerBtn) hamburgerBtn.addEventListener('click', openMenu);
 if (closeMenuBtn) closeMenuBtn.addEventListener('click', closeMenu);
-if (overlay)      overlay.addEventListener('click', closeMenu);
+if (overlay) overlay.addEventListener('click', closeMenu);
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeMenu();
@@ -97,10 +97,12 @@ async function actualizarContadorCarrito() {
     });
     if (!res.ok) return;
     const data = await res.json();
-    const total = (data.items || []).reduce((acc, i) => acc + i.cantidad, 0);
+    const total = (data.items || []).length;
     const badge = document.getElementById('cartBadge');
-    if (badge) badge.textContent = total;
-  } catch (err) {}
+    if (badge) {
+      badge.textContent = total;
+    }
+  } catch (err) { }
 }
 
 actualizarContadorCarrito();
