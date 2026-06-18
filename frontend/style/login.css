@@ -306,6 +306,10 @@ object-fit: contain;
   box-shadow: 0 0 0 3px rgba(244,123,32,0.12);
 }
 
+.input-wrap input.invalido {
+  border-color: #f87171;
+}
+
 .toggle-pass {
   position: absolute;
   right: 14px;
@@ -437,3 +441,4 @@ object-fit: contain;
   .lado-izq { display: none; }
   .lado-der { padding: 40px 28px; }
 }
+
