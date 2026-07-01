@@ -1,6 +1,6 @@
 const API_BASE =
   window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
+    window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
     : 'https://feel-revenue-tamper.ngrok-free.dev';
 
@@ -10,7 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.getItem('fm_usuario') || 'null'
   );
   if (!usuario) { window.location.href = '../login.html'; return; }
-  if (usuario.rol !== 'admin') { window.location.href = '../index.html'; return; }
+  if (!['admin', 'super_admin'].includes(usuario.rol)) {
+    window.location.href = '../index.html';
+    return;
+  }
 
   token = localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
 
@@ -65,11 +68,11 @@ function renderTabla(data) {
       <td>
         <div style="display:flex;gap:8px;">
           <button class="admin-btn admin-btn-secondary admin-btn-sm"
-            onclick="abrirModalEditar(${c.id_categoria}, '${c.nombre.replace(/'/g,"\\'")}', '${(c.descripcion||'').replace(/'/g,"\\'")}')">
+            onclick="abrirModalEditar(${c.id_categoria}, '${c.nombre.replace(/'/g, "\\'")}', '${(c.descripcion || '').replace(/'/g, "\\'")}')">
             ✏️ Editar
           </button>
           <button class="admin-btn admin-btn-danger admin-btn-sm"
-            onclick="confirmarEliminar(${c.id_categoria}, '${c.nombre.replace(/'/g,"\\'")}')">
+            onclick="confirmarEliminar(${c.id_categoria}, '${c.nombre.replace(/'/g, "\\'")}')">
             🗑️ Eliminar
           </button>
         </div>
@@ -107,7 +110,7 @@ function cerrarModal() {
 
 async function guardarCategoria(e) {
   e.preventDefault();
-  const nombre      = document.getElementById('inputNombre').value.trim();
+  const nombre = document.getElementById('inputNombre').value.trim();
   const descripcion = document.getElementById('inputDescripcion').value.trim();
   if (!nombre) return;
 
@@ -116,9 +119,9 @@ async function guardarCategoria(e) {
   btn.disabled = true;
 
   try {
-    const url    = editandoId ? `${API_BASE}/admin/categorias/${editandoId}` : `${API_BASE}/admin/categorias`;
+    const url = editandoId ? `${API_BASE}/admin/categorias/${editandoId}` : `${API_BASE}/admin/categorias`;
     const method = editandoId ? 'PUT' : 'POST';
-    const res    = await fetch(url, {
+    const res = await fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
       body: JSON.stringify({ nombre, descripcion })

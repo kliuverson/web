@@ -7,7 +7,7 @@ exports.generarCheckout = async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
 
     const amountInCents = Math.round(total * 100);
-    const reference     = `FERRE_${Date.now()}`;
+    const reference = `FERRE_${Date.now()}`;
 
     // Guardar token asociado a la referencia
     referencias[reference] = token;
@@ -18,11 +18,11 @@ exports.generarCheckout = async (req, res) => {
       .digest('hex');
 
     res.json({
-      publicKey:     process.env.WOMPI_PUBLIC_KEY,
+      publicKey: process.env.WOMPI_PUBLIC_KEY,
       amountInCents,
       reference,
       signature,
-      redirectUrl:   process.env.WOMPI_REDIRECT_URL
+      redirectUrl: process.env.WOMPI_REDIRECT_URL
     });
 
   } catch (error) {
