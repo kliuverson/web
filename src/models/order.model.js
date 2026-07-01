@@ -66,7 +66,7 @@ const crearPedido = async (id_usuario) => {
   // Crear pedido
   const [result] = await db.query(`
     INSERT INTO pedidos (id_usuario, fecha_pedido, estado, total, id_direccion)
-    VALUES (?, NOW(), 'pendiente', ?, ?)
+    VALUES (?, NOW(), 'procesando', ?, ?)
   `, [id_usuario, total, id_direccion]);
 
   const id_pedido = result.insertId;
@@ -82,7 +82,13 @@ const crearPedido = async (id_usuario) => {
   // Vaciar carrito
   await db.query('DELETE FROM carrito_detalle WHERE id_carrito = ?', [carrito.id_carrito]);
 
-  return getPedidoById(id_pedido, id_usuario);
+  const pedido = await getPedidoById(id_pedido, id_usuario);
+
+  return {
+    ...pedido,
+    id_pedido
+  };
+
 };
 
 module.exports = { getPedidos, getPedidoById, crearPedido };
