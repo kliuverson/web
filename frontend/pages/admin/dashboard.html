@@ -1,134 +1,137 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin — FERREMATERIALES</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../../style/admin.css">
 </head>
+
 <body class="admin-body">
 
-<!-- SIDEBAR -->
-<aside class="admin-sidebar" id="adminSidebar">
-  <div class="admin-sidebar-brand">
-    <img src="../../assets/icons/logo_recortado.png" alt="Logo">
-    <div>
-      <div class="admin-brand-name">FERREMATERIALES</div>
-      <div class="admin-brand-sub">Panel Admin</div>
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-sidebar-brand">
+      <img src="../../assets/icons/logo_recortado.png" alt="Logo">
+      <div>
+        <div class="admin-brand-name">FERREMATERIALES</div>
+        <div class="admin-brand-sub">Panel Admin</div>
+      </div>
     </div>
+
+    <nav class="admin-nav">
+      <div class="admin-nav-label">General</div>
+      <a href="dashboard.html" class="admin-nav-item active">
+        <span class="admin-nav-icon"></span> Dashboard
+      </a>
+
+      <div class="admin-nav-label">Catálogo</div>
+      <a href="productos.html" class="admin-nav-item">
+        <span class="admin-nav-icon"></span> Productos
+      </a>
+      <a href="categorias.html" class="admin-nav-item">
+        <span class="admin-nav-icon"></span> Categorías
+      </a>
+      <div class="admin-nav-label">Ventas</div>
+      <a href="pedidos.html" class="admin-nav-item">
+        <span class="admin-nav-icon"></span> Pedidos
+      </a>
+
+      <div class="admin-nav-label">Usuarios</div>
+      <a href="usuarios.html" class="admin-nav-item">
+        <span class="admin-nav-icon"></span> Usuarios
+      </a>
+
+      <div class="admin-nav-divider"></div>
+      <a href="../index.html" class="admin-nav-item">
+        <span class="admin-nav-icon"></span> Ver tienda
+      </a>
+      <a href="#" class="admin-nav-item admin-logout">
+        <span class="admin-nav-icon"></span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
+
+  <!-- CONTENIDO -->
+  <div class="admin-content">
+
+    <!-- TOPBAR -->
+    <div class="admin-topbar">
+      <div class="admin-page-title">Dashboard</div>
+      <div class="admin-user-badge" id="adminUserBadge">Admin</div>
+    </div>
+
+    <!-- STATS -->
+    <div class="admin-stats-grid">
+      <div class="admin-stat-card">
+        <div class="admin-stat-top">
+          <div class="admin-stat-label">Productos</div>
+          <span class="admin-stat-icon-sm">📦</span>
+        </div>
+        <div class="admin-stat-value" id="statProductos">—</div>
+        <span class="admin-stat-accent"></span>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-top">
+          <div class="admin-stat-label">Pedidos totales</div>
+          <span class="admin-stat-icon-sm">🛒</span>
+        </div>
+        <div class="admin-stat-value" id="statPedidos">—</div>
+        <span class="admin-stat-accent"></span>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-top">
+          <div class="admin-stat-label">Usuarios</div>
+          <span class="admin-stat-icon-sm">👥</span>
+        </div>
+        <div class="admin-stat-value" id="statUsuarios">—</div>
+        <span class="admin-stat-accent"></span>
+      </div>
+      <div class="admin-stat-card">
+        <div class="admin-stat-top">
+          <div class="admin-stat-label">Ventas totales</div>
+          <span class="admin-stat-icon-sm">💰</span>
+        </div>
+        <div class="admin-stat-value" id="statVentas">—</div>
+        <span class="admin-stat-accent"></span>
+      </div>
+    </div>
+
+    <!-- FILA INFERIOR -->
+    <div class="admin-inner">
+
+      <!-- PEDIDOS RECIENTES -->
+      <div class="admin-panel">
+        <div class="admin-panel-header">
+          <span class="admin-panel-title">Pedidos recientes</span>
+          <a href="pedidos.html" class="admin-link">Ver todos →</a>
+        </div>
+        <div id="tablaPedidos">
+          <div class="admin-loading">Cargando...</div>
+        </div>
+      </div>
+
+      <!-- ACCESOS RÁPIDOS -->
+      <div class="admin-panel" style="border-left: 1px solid var(--border);">
+        <div class="admin-panel-header">
+          <span class="admin-panel-title">Accesos rápidos</span>
+        </div>
+        <div class="admin-quick-links">
+          <a href="productos.html" class="admin-quick-btn">📦 Nuevo producto</a>
+          <a href="categorias.html" class="admin-quick-btn">🗂️ Nueva categoría</a>
+          <a href="usuarios.html" class="admin-quick-btn">👥 Ver usuarios</a>
+          <a href="pedidos.html" class="admin-quick-btn">🛒 Ver pedidos</a>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
-  <nav class="admin-nav">
-    <div class="admin-nav-label">General</div>
-    <a href="dashboard.html" class="admin-nav-item active">
-      <span class="admin-nav-icon"></span> Dashboard
-    </a>
-
-    <div class="admin-nav-label">Catálogo</div>
-    <a href="productos.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Productos
-    </a>
-    <a href="categorias.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Categorías
-    </a>
-    <div class="admin-nav-label">Ventas</div>
-    <a href="pedidos.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Pedidos
-    </a>
-
-    <div class="admin-nav-label">Usuarios</div>
-    <a href="usuarios.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Usuarios
-    </a>
-
-    <div class="admin-nav-divider"></div>
-    <a href="../index.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Ver tienda
-    </a>
-    <a href="#" class="admin-nav-item admin-logout">
-      <span class="admin-nav-icon"></span> Cerrar sesión
-    </a>
-  </nav>
-</aside>
-
-<!-- CONTENIDO -->
-<div class="admin-content">
-
-  <!-- TOPBAR -->
-  <div class="admin-topbar">
-    <div class="admin-page-title">Dashboard</div>
-    <div class="admin-user-badge" id="adminUserBadge">Admin</div>
-  </div>
-
-  <!-- STATS -->
-  <div class="admin-stats-grid">
-    <div class="admin-stat-card">
-      <div class="admin-stat-top">
-        <div class="admin-stat-label">Productos</div>
-        <span class="admin-stat-icon-sm">📦</span>
-      </div>
-      <div class="admin-stat-value" id="statProductos">—</div>
-      <span class="admin-stat-accent"></span>
-    </div>
-    <div class="admin-stat-card">
-      <div class="admin-stat-top">
-        <div class="admin-stat-label">Pedidos totales</div>
-        <span class="admin-stat-icon-sm">🛒</span>
-      </div>
-      <div class="admin-stat-value" id="statPedidos">—</div>
-      <span class="admin-stat-accent"></span>
-    </div>
-    <div class="admin-stat-card">
-      <div class="admin-stat-top">
-        <div class="admin-stat-label">Usuarios</div>
-        <span class="admin-stat-icon-sm">👥</span>
-      </div>
-      <div class="admin-stat-value" id="statUsuarios">—</div>
-      <span class="admin-stat-accent"></span>
-    </div>
-    <div class="admin-stat-card">
-      <div class="admin-stat-top">
-        <div class="admin-stat-label">Ventas totales</div>
-        <span class="admin-stat-icon-sm">💰</span>
-      </div>
-      <div class="admin-stat-value" id="statVentas">—</div>
-      <span class="admin-stat-accent"></span>
-    </div>
-  </div>
-
-  <!-- FILA INFERIOR -->
-  <div class="admin-inner">
-
-    <!-- PEDIDOS RECIENTES -->
-    <div class="admin-panel">
-      <div class="admin-panel-header">
-        <span class="admin-panel-title">Pedidos recientes</span>
-        <a href="pedidos.html" class="admin-link">Ver todos →</a>
-      </div>
-      <div id="tablaPedidos">
-        <div class="admin-loading">Cargando...</div>
-      </div>
-    </div>
-
-    <!-- ACCESOS RÁPIDOS -->
-    <div class="admin-panel" style="border-left: 1px solid var(--border);">
-      <div class="admin-panel-header">
-        <span class="admin-panel-title">Accesos rápidos</span>
-      </div>
-      <div class="admin-quick-links">
-        <a href="productos.html" class="admin-quick-btn">📦 Nuevo producto</a>
-        <a href="categorias.html" class="admin-quick-btn">🗂️ Nueva categoría</a>
-        <a href="ofertas.html" class="admin-quick-btn">🏷️ Nueva oferta</a>
-        <a href="usuarios.html" class="admin-quick-btn">👥 Ver usuarios</a>
-        <a href="pedidos.html" class="admin-quick-btn">🛒 Ver pedidos</a>
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<script src="../../js/dashboard.js"></script>
+  <script src="../../js/dashboard.js"></script>
 </body>
+
 </html>

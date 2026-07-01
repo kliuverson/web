@@ -1,70 +1,71 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Usuarios — FERREMATERIALES Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../../style/admin.css">
 </head>
+
 <body class="admin-body">
 
-<aside class="admin-sidebar">
-  <div class="admin-sidebar-brand">
-    <img src="../../assets/icons/logo_recortado.png" alt="Logo">
-    <div>
-      <div class="admin-brand-name">FERREMATERIALES</div>
-      <div class="admin-brand-sub">Panel Admin</div>
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-brand">
+      <img src="../../assets/icons/logo_recortado.png" alt="Logo">
+      <div>
+        <div class="admin-brand-name">FERREMATERIALES</div>
+        <div class="admin-brand-sub">Panel Admin</div>
+      </div>
     </div>
-  </div>
-  <nav class="admin-nav">
-    <div class="admin-nav-label">General</div>
-    <a href="dashboard.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Dashboard</a>
-    <div class="admin-nav-label">Catálogo</div>
-    <a href="productos.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Productos</a>
-    <a href="categorias.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Categorías</a>
-    <a href="ofertas.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Ofertas</a>
-    <div class="admin-nav-label">Ventas</div>
-    <a href="pedidos.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Pedidos</a>
-    <div class="admin-nav-label">Usuarios</div>
-    <a href="usuarios.html" class="admin-nav-item active"><span class="admin-nav-icon"></span> Usuarios</a>
-    <div class="admin-nav-divider"></div>
-    <a href="../index.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Ver tienda</a>
-    <a href="#" class="admin-nav-item admin-logout"><span class="admin-nav-icon"></span> Cerrar sesión</a>
-  </nav>
-</aside>
+    <nav class="admin-nav">
+      <div class="admin-nav-label">General</div>
+      <a href="dashboard.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Dashboard</a>
+      <div class="admin-nav-label">Catálogo</div>
+      <a href="productos.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Productos</a>
+      <a href="categorias.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Categorías</a>
+      <div class="admin-nav-label">Ventas</div>
+      <a href="pedidos.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Pedidos</a>
+      <div class="admin-nav-label">Usuarios</div>
+      <a href="usuarios.html" class="admin-nav-item active"><span class="admin-nav-icon"></span> Usuarios</a>
+      <div class="admin-nav-divider"></div>
+      <a href="../index.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Ver tienda</a>
+      <a href="#" class="admin-nav-item admin-logout"><span class="admin-nav-icon"></span> Cerrar sesión</a>
+    </nav>
+  </aside>
 
-<div class="admin-content">
-  <div class="admin-topbar">
-    <div class="admin-page-title">Usuarios</div>
-    <div class="admin-user-badge" id="adminUserBadge">Admin</div>
-  </div>
-
-  <div class="admin-panel" style="margin:24px;">
-    <div class="admin-panel-header">
-      <span class="admin-panel-title">Todos los usuarios</span>
-      <span id="totalUsuarios" style="color:var(--muted);font-size:13px;">Total: 0</span>
+  <div class="admin-content">
+    <div class="admin-topbar">
+      <div class="admin-page-title">Usuarios</div>
+      <div class="admin-user-badge" id="adminUserBadge">Admin</div>
     </div>
 
-    <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
-      <input id="buscar" type="text" placeholder="Buscar por nombre o correo..."
-        style="flex:1;min-width:200px;padding:10px 14px;background:#1a1a1a;border:1px solid #333;
+    <div class="admin-panel" style="margin:24px;">
+      <div class="admin-panel-header">
+        <span class="admin-panel-title">Todos los usuarios</span>
+        <span id="totalUsuarios" style="color:var(--muted);font-size:13px;">Total: 0</span>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+        <input id="buscar" type="text" placeholder="Buscar por nombre o correo..." style="flex:1;min-width:200px;padding:10px 14px;background:#1a1a1a;border:1px solid #333;
         color:#fff;border-radius:4px;font-size:14px;outline:none;">
-      <select id="filtroRol"
-        style="padding:10px 14px;background:#1a1a1a;border:1px solid #333;
+        <select id="filtroRol" style="padding:10px 14px;background:#1a1a1a;border:1px solid #333;
         color:#fff;border-radius:4px;font-size:14px;outline:none;cursor:pointer;">
-        <option value="">Todos los roles</option>
-        <option value="cliente">Cliente</option>
-        <option value="admin">Admin</option>
-      </select>
-    </div>
+          <option value="">Todos los roles</option>
+          <option value="cliente">Cliente</option>
+          <option value="admin">Admin</option>
+        </select>
+      </div>
 
-    <div id="tablaUsuarios">
-      <div class="admin-loading">Cargando...</div>
+      <div id="tablaUsuarios">
+        <div class="admin-loading">Cargando...</div>
+      </div>
     </div>
   </div>
-</div>
 
-<script src="../../js/admin-usuarios.js"></script>
+  <script src="../../js/admin-usuarios.js"></script>
 </body>
+
 </html>

@@ -1,10 +1,10 @@
-const express        = require('express');
-const router         = express.Router();
-const model          = require('../models/category.model');
+const express = require('express');
+const router = express.Router();
+const model = require('../models/category.model');
 const verificarToken = require('../middlewares/auth.middleware');
-const verificarAdmin = require('../middlewares/admin.middleware');
+const verificarRol = require('../middlewares/role.middleware');
 
-router.use(verificarToken, verificarAdmin);
+router.use(verificarToken, verificarRol('admin', 'super_admin'));
 
 router.get('/', async (req, res, next) => {
   try {

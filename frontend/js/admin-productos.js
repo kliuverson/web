@@ -1,16 +1,16 @@
 const API_BASE =
   window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
+    window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
     : 'https://feel-revenue-tamper.ngrok-free.dev';
-    
+
 document.addEventListener('DOMContentLoaded', () => {
   const usuario = JSON.parse(
     localStorage.getItem('fm_usuario') ||
     sessionStorage.getItem('fm_usuario') || 'null'
   );
   if (!usuario) { window.location.href = '../login.html'; return; }
-  if (usuario.rol !== 'admin') { window.location.href = '../index.html'; return; }
+  if (!['admin', 'super_admin'].includes(usuario.rol)) { window.location.href = '../index.html'; return; }
 
   token = localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
 
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('formProducto').addEventListener('submit', guardarProducto);
   document.getElementById('buscar').addEventListener('input', filtrar);
   document.getElementById('filtroCategoria').addEventListener('change', filtrar);
- 
+
   // Preview imagen
   document.getElementById('inpImagen').addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -102,9 +102,9 @@ function renderTabla(data) {
           <tr>
             <td>
               ${p.imagen_url
-                ? `<img src="${p.imagen_url}" style="width:48px;height:48px;object-fit:cover;border-radius:4px;">`
-                : `<div style="width:48px;height:48px;background:#222;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#555;">📦</div>`
-              }
+      ? `<img src="${p.imagen_url}" style="width:48px;height:48px;object-fit:cover;border-radius:4px;">`
+      : `<div style="width:48px;height:48px;background:#222;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#555;">📦</div>`
+    }
             </td>
             <td>#${p.id_producto}</td>
             <td>${p.nombre}</td>
@@ -117,7 +117,7 @@ function renderTabla(data) {
                 <button class="admin-btn admin-btn-secondary admin-btn-sm"
                   onclick="abrirModalEditar(${p.id_producto})">✏️ Editar</button>
                 <button class="admin-btn admin-btn-danger admin-btn-sm"
-                  onclick="confirmarEliminar(${p.id_producto}, '${p.nombre.replace(/'/g,"\\'")}')">🗑️ Eliminar</button>
+                  onclick="confirmarEliminar(${p.id_producto}, '${p.nombre.replace(/'/g, "\\'")}')">🗑️ Eliminar</button>
               </div>
             </td>
           </tr>
@@ -193,7 +193,7 @@ async function guardarProducto(e) {
   if (imagen) formData.append('imagen', imagen);
 
   try {
-    const url    = editandoId ? `${API_BASE}/admin/productos/${editandoId}` : `${API_BASE}/admin/productos`;
+    const url = editandoId ? `${API_BASE}/admin/productos/${editandoId}` : `${API_BASE}/admin/productos`;
     const method = editandoId ? 'PUT' : 'POST';
 
     const res = await fetch(url, {

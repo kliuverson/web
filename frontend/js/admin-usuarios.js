@@ -1,6 +1,6 @@
 const API_BASE =
   window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
+    window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
     : 'https://feel-revenue-tamper.ngrok-free.dev';
 
@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.getItem('fm_usuario') ||
     sessionStorage.getItem('fm_usuario') || 'null'
   );
-  if (!usuario) { window.location.href = `${BASE_URL}/pages/login.html`; return; }
-  if (usuario.rol !== 'admin') { window.location.href = `${BASE_URL}/pages/index.html`; return; }
+  if (!usuario) { window.location.href = `${API_BASE}/pages/login.html`; return; }
+  if (!['admin', 'super_admin'].includes(usuario.rol)) { window.location.href = `${API_BASE}/pages/index.html`; return; }
 
   token = localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
 
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('.admin-logout')?.addEventListener('click', (e) => {
     e.preventDefault();
     localStorage.clear(); sessionStorage.clear();
-    window.location.href = `${BASE_URL}/pages/login.html`;
+    window.location.href = `${API_BASE}/pages/login.html`;
   });
 
   document.getElementById('buscar').addEventListener('input', filtrar);
@@ -45,6 +45,15 @@ async function cargarUsuarios() {
 }
 
 function renderTabla(data) {
+  const usuarioActual = JSON.parse(
+    localStorage.getItem('fm_usuario') ||
+    sessionStorage.getItem('fm_usuario')
+  );
+
+  if (usuarioActual.rol === 'admin') {
+    data = data.filter(u => u.rol !== 'super_admin');
+  }
+
   const wrap = document.getElementById('tablaUsuarios');
   document.getElementById('totalUsuarios').textContent = `Total: ${data.length}`;
 
@@ -76,7 +85,12 @@ function renderTabla(data) {
             <td style="color:var(--muted);font-size:12px;">${u.telefono || '—'}</td>
             <td style="color:var(--muted);font-size:12px;">${u.documento || '—'}</td>
             <td>
-              <span class="admin-badge ${u.rol === 'admin' ? 'badge-enviado' : 'badge-pendiente'}">
+              <span class="admin-badge ${u.rol === 'super_admin'
+      ? 'badge-entregado'
+      : u.rol === 'admin'
+        ? 'badge-enviado'
+        : 'badge-pendiente'
+    }">
                 ${u.rol}
               </span>
             </td>
@@ -84,17 +98,47 @@ function renderTabla(data) {
               ${new Date(u.created_at).toLocaleDateString('es-CO')}
             </td>
             <td>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <button class="admin-btn admin-btn-secondary admin-btn-sm"
-                  onclick="cambiarRol(${u.id_usuario}, '${u.rol}', '${u.nombre.replace(/'/g,"\\'")}')">
-                  👤 Rol
-                </button>
-                <button class="admin-btn admin-btn-danger admin-btn-sm"
-                  onclick="confirmarEliminar(${u.id_usuario}, '${u.nombre.replace(/'/g,"\\'")}')">
-                  🗑️ Eliminar
-                </button>
-              </div>
-            </td>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;">
+
+    ${(
+      usuarioActual.rol === 'super_admin'
+    ) ||
+      (
+        usuarioActual.rol === 'admin' &&
+        u.rol !== 'super_admin' &&
+        u.id_usuario !== usuarioActual.id_usuario
+      )
+      ? `
+          <button
+            class="admin-btn admin-btn-secondary admin-btn-sm"
+            onclick="cambiarRol(${u.id_usuario}, '${u.rol}', '${u.nombre.replace(/'/g, "\\'")}')">
+            👤 Rol
+          </button>
+        `
+      : ''
+    }
+
+    ${(
+      usuarioActual.rol === 'super_admin' &&
+      u.id_usuario !== usuarioActual.id_usuario
+    ) ||
+      (
+        usuarioActual.rol === 'admin' &&
+        u.rol !== 'super_admin' &&
+        u.id_usuario !== usuarioActual.id_usuario
+      )
+      ? `
+          <button
+            class="admin-btn admin-btn-danger admin-btn-sm"
+            onclick="confirmarEliminar(${u.id_usuario}, '${u.nombre.replace(/'/g, "\\'")}')">
+            🗑️ Eliminar
+          </button>
+        `
+      : ''
+    }
+
+  </div>
+</td>
           </tr>
         `).join('')}
       </tbody>
@@ -114,7 +158,10 @@ function filtrar() {
 }
 
 function cambiarRol(id, rolActual, nombre) {
-  const nuevoRol = rolActual === 'admin' ? 'cliente' : 'admin';
+  const usuarioActual = JSON.parse(
+    localStorage.getItem('fm_usuario') ||
+    sessionStorage.getItem('fm_usuario')
+  );
   const overlay = document.createElement('div');
   overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,0.7);
     display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);`;
@@ -126,10 +173,31 @@ function cambiarRol(id, rolActual, nombre) {
       <h3 style="font-family:'Syne',sans-serif;font-size:18px;margin-bottom:8px;color:#fff;">
         Cambiar rol
       </h3>
-      <p style="color:#888;font-size:14px;margin-bottom:24px;">
-        ¿Cambiar el rol de <strong style="color:#fff;">${nombre}</strong> a
-        <strong style="color:#ff6b00;">${nuevoRol}</strong>?
+      <p style="color:#888;font-size:14px;margin-bottom:16px;">
+        Selecciona el nuevo rol para
+        <strong style="color:#fff;">${nombre}</strong>
       </p>
+
+      <select id="nuevoRol" style="
+  width:100%;
+  padding:10px;
+  margin-bottom:24px;
+  background:#222;
+  color:#fff;
+  border:1px solid #444;
+  border-radius:4px;
+">
+  <option value="cliente"
+    ${rolActual === 'cliente' ? 'selected' : ''}>
+    Cliente
+  </option>
+
+  <option value="admin"
+    ${rolActual === 'admin' ? 'selected' : ''}>
+    Administrador
+  </option>
+</select>
+
       <div style="display:flex;gap:12px;justify-content:center;">
         <button id="btnCancelarRol" style="padding:10px 24px;background:transparent;
           border:1px solid #444;color:#fff;border-radius:4px;cursor:pointer;
@@ -146,6 +214,7 @@ function cambiarRol(id, rolActual, nombre) {
   overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
 
   document.getElementById('btnConfirmarRol').onclick = async () => {
+    const nuevoRol = document.getElementById('nuevoRol').value;
     overlay.remove();
     try {
       const res = await fetch(`${API_BASE}/admin/usuarios/${id}/rol`, {

@@ -1,178 +1,214 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mis Favoritos — FERREMATERIALES</title>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../style/main.css">
   <link rel="stylesheet" href="../style/perfil.css">
   <link rel="stylesheet" href="../style/favoritos.css">
 </head>
+
 <body>
 
-<!-- ANNOUNCEMENT BAR -->
-<div class="announcement">
-  <span>ENVÍO GRATIS EN COMPRAS SUPERIORES A $200.000</span>
-  <span>Lun–Sáb 7:00am — 7:00pm &nbsp;·&nbsp; <a href="tel:+573001234567">+57 300 123 4567</a></span>
-</div>
-
-<!-- OVERLAY -->
-<div class="overlay" id="overlay"></div>
-
-<!-- MENÚ LATERAL -->
-<aside class="side-menu" id="sideMenu" aria-hidden="true">
-  <div class="side-menu-header">
-    <span>MENÚ</span>
-    <button class="side-menu-close" id="closeMenuBtn" aria-label="Cerrar menú">✕</button>
+  <!-- ANNOUNCEMENT BAR -->
+  <div class="announcement">
+    <span>ENVÍO GRATIS EN COMPRAS SUPERIORES A $200.000</span>
+    <span>Lun–Sáb 7:00am — 7:00pm &nbsp;·&nbsp; <a href="tel:+573001234567">+57 300 123 4567</a></span>
   </div>
-  <nav class="side-menu-nav">
-    <ul>
-      <li><a href="./index.html">🏠&nbsp;&nbsp;Inicio</a></li>
-      <li><a href="./index.html#categorias">📦&nbsp;&nbsp;Categorías</a></li>
-      <li><a href="./index.html#productos">🔧&nbsp;&nbsp;Productos</a></li>
-      <li><a href="./index.html#ofertas">🏷️&nbsp;&nbsp;Ofertas</a></li>
-      <li><a href="./index.html#contacto">📞&nbsp;&nbsp;Contacto</a></li>
-    </ul>
-  </nav>
-</aside>
 
-<!-- NAVBAR -->
-<nav>
-  <div class="nav-left">
-    <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menú">☰</button>
-  </div>
-  <div class="nav-center">
-    <a href="./index.html" class="logo">
-      <div class="logo-icon">
-        <img src="../assets/icons/logo_recortado.png" alt="FERREMATERIALES">
-      </div>
-      <div class="logo-text">
-        <div class="brand">FERREMATERIALES</div>
-        <div class="sub">tu aliado en materiales</div>
-      </div>
-    </a>
-  </div>
-  <div class="nav-right">
-    <a href="perfil.html">
-      <button class="profile-btn" aria-label="Mi perfil">
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-        </svg>
-      </button>
-    </a>
-    <button class="cart-btn">
-      🛒
-      <span class="cart-badge">0</span>
-    </button>
-  </div>
-</nav>
+  <!-- OVERLAY -->
+  <div class="overlay" id="overlay"></div>
 
-<!-- BREADCRUMB -->
-<div class="breadcrumb">
-  <a href="./index.html">Inicio</a>
-  <span>/</span>
-  <a href="./perfil.html">Mi Perfil</a>
-  <span>/</span>
-  <span>Favoritos</span>
-</div>
-
-<!-- PERFIL HERO -->
-<div class="perfil-hero">
-  <div class="perfil-hero-inner">
-    <div class="avatar-wrap">
-      <div class="avatar">?</div>
+  <!-- MENÚ LATERAL -->
+  <aside class="side-menu" id="sideMenu" aria-hidden="true">
+    <div class="side-menu-header">
+      <span>MENÚ</span>
+      <button class="side-menu-close" id="closeMenuBtn" aria-label="Cerrar menú">✕</button>
     </div>
-    <div class="perfil-info">
-      <h1 class="perfil-name">Cargando...</h1>
-      <div class="perfil-meta">
-        <span id="meta-correo">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          —
-        </span>
-        <span id="meta-telefono">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.34 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.4a16 16 0 0 0 5.73 5.73l1.75-1.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92z"/></svg>
-          —
-        </span>
-      </div>
-    </div>
-    <div class="perfil-actions">
-      <a href="./index.html#productos" class="btn-comprar">Comprar ahora →</a>
-    </div>
-  </div>
-</div>
-
-<!-- LAYOUT PRINCIPAL -->
-<div class="perfil-layout">
-
-  <!-- SIDEBAR -->
-  <aside class="perfil-sidebar">
-    <div class="sidebar-label">MENÚ</div>
-    <nav class="sidebar-nav">
-      <a href="perfil.html" class="snav-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Mi cuenta
-      </a>
-      <a href="pedidos.html" class="snav-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
-        Mis pedidos
-      </a>
-      <a href="favoritos.html" class="snav-item active">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-        Favoritos
-      </a>
-      <a href="direcciones.html" class="snav-item">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-        Direcciones
-      </a>
-      <div class="snav-divider"></div>
-      <a href="#" class="snav-item snav-logout">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-        Cerrar sesión
-      </a>
+    <nav class="side-menu-nav">
+      <ul>
+        <li><a href="./index.html">🏠&nbsp;&nbsp;Inicio</a></li>
+        <li><a href="./index.html#categorias">📦&nbsp;&nbsp;Categorías</a></li>
+        <li><a href="./index.html#productos">🔧&nbsp;&nbsp;Productos</a></li>
+        <li><a href="./index.html#ofertas">🏷️&nbsp;&nbsp;Ofertas</a></li>
+        <li><a href="./index.html#contacto">📞&nbsp;&nbsp;Contacto</a></li>
+      </ul>
     </nav>
   </aside>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="perfil-main">
-    <section class="pcard">
-      <div class="pcard-header">
-        <h2>Mis Favoritos</h2>
-        <span class="fav-count-badge" id="favCount">0 productos</span>
-      </div>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-left">
+      <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menú">☰</button>
+    </div>
+    <div class="nav-center">
+      <a href="./index.html" class="logo">
+        <div class="logo-icon">
+          <img src="../assets/icons/logo_recortado.png" alt="FERREMATERIALES">
+        </div>
+        <div class="logo-text">
+          <div class="brand">FERREMATERIALES</div>
+          <div class="sub">tu aliado en materiales</div>
+        </div>
+      </a>
+    </div>
+    <div class="nav-right">
+      <a href="perfil.html">
+        <button class="profile-btn" aria-label="Mi perfil">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+          </svg>
+        </button>
+      </a>
+      <button class="cart-btn">
+        🛒
+        <span id="cartBadge" class="cart-badge">0</span>
+      </button>
+    </div>
+  </nav>
 
-      <!-- LOADING -->
-      <div id="favLoading" class="fav-loading">
-        <div class="fav-spinner"></div>
-        <p>Cargando favoritos...</p>
-      </div>
-
-      <!-- GRID DE FAVORITOS -->
-      <div id="favGrid" class="fav-grid" style="display:none;"></div>
-
-      <!-- ESTADO VACÍO -->
-      <div id="favVacio" class="fav-vacio" style="display:none;">
-        <div class="fav-vacio-icon">🤍</div>
-        <h3>Aún no tienes favoritos</h3>
-        <p>Guarda los productos que más te gustan para encontrarlos rápido.</p>
-        <a href="./index.html#productos" class="btn-comprar">Ver productos →</a>
-      </div>
-
-    </section>
-  </main>
-
-</div>
-
-<!-- FOOTER -->
-<footer id="contacto">
-  <div class="footer-bottom" style="border-top: 1px solid #1e1e1e; padding: 24px 60px; display:flex; justify-content:space-between; align-items:center;">
-    <p style="font-size:13px; color:#555;">© 2026 FERREMATERIALES · Herramientas que construyen futuro.</p>
-    <p style="font-size:13px; color:#555;">Soporte: soporte@ferremateriales.co · +57 300 123 4567</p>
+  <!-- BREADCRUMB -->
+  <div class="breadcrumb">
+    <a href="./index.html">Inicio</a>
+    <span>/</span>
+    <a href="./perfil.html">Mi Perfil</a>
+    <span>/</span>
+    <span>Favoritos</span>
   </div>
-</footer>
 
-<script src="../js/script.js"></script>
-<script src="../js/favoritos-perfil.js"></script>
+  <!-- PERFIL HERO -->
+  <div class="perfil-hero">
+    <div class="perfil-hero-inner">
+      <div class="avatar-wrap">
+        <div class="avatar">?</div>
+      </div>
+      <div class="perfil-info">
+        <h1 class="perfil-name">Cargando...</h1>
+        <div class="perfil-meta">
+          <span id="meta-correo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
+            —
+          </span>
+          <span id="meta-telefono">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.34 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.4a16 16 0 0 0 5.73 5.73l1.75-1.75a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 14.92z" />
+            </svg>
+            —
+          </span>
+        </div>
+      </div>
+      <div class="perfil-actions">
+        <a href="./index.html#productos" class="btn-comprar">Comprar ahora →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAYOUT PRINCIPAL -->
+  <div class="perfil-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="perfil-sidebar">
+      <div class="sidebar-label">MENÚ</div>
+      <nav class="sidebar-nav">
+        <a href="perfil.html" class="snav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          Mi cuenta
+        </a>
+        <a href="pedidos.html" class="snav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <path
+              d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+          </svg>
+          Mis pedidos
+        </a>
+        <a href="favoritos.html" class="snav-item active">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+          Favoritos
+        </a>
+        <a href="direcciones.html" class="snav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg>
+          Direcciones
+        </a>
+        <div class="snav-divider"></div>
+        <a href="#" class="snav-item snav-logout">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" x2="9" y1="12" y2="12" />
+          </svg>
+          Cerrar sesión
+        </a>
+      </nav>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="perfil-main">
+      <section class="pcard">
+        <div class="pcard-header">
+          <h2>Mis Favoritos</h2>
+          <span class="fav-count-badge" id="favCount">0 productos</span>
+        </div>
+
+        <!-- LOADING -->
+        <div id="favLoading" class="fav-loading">
+          <div class="fav-spinner"></div>
+          <p>Cargando favoritos...</p>
+        </div>
+
+        <!-- GRID DE FAVORITOS -->
+        <div id="favGrid" class="fav-grid" style="display:none;"></div>
+
+        <!-- ESTADO VACÍO -->
+        <div id="favVacio" class="fav-vacio" style="display:none;">
+          <div class="fav-vacio-icon">🤍</div>
+          <h3>Aún no tienes favoritos</h3>
+          <p>Guarda los productos que más te gustan para encontrarlos rápido.</p>
+          <a href="./index.html#productos" class="btn-comprar">Ver productos →</a>
+        </div>
+
+      </section>
+    </main>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="contacto">
+    <div class="footer-bottom"
+      style="border-top: 1px solid #1e1e1e; padding: 24px 60px; display:flex; justify-content:space-between; align-items:center;">
+      <p style="font-size:13px; color:#555;">© 2026 FERREMATERIALES · Herramientas que construyen futuro.</p>
+      <p style="font-size:13px; color:#555;">Soporte: soporte@ferremateriales.co · +57 300 123 4567</p>
+    </div>
+  </footer>
+
+  <script src="../js/script.js"></script>
+  <script src="../js/favoritos-perfil.js"></script>
 </body>
+
 </html>

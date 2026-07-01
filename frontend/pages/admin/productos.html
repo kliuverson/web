@@ -1,164 +1,155 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Productos — FERREMATERIALES Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../../style/admin.css">
 </head>
+
 <body class="admin-body">
 
-<aside class="admin-sidebar">
-  <div class="admin-sidebar-brand">
-    <img src="../../assets/icons/logo_recortado.png" alt="Logo">
-    <div>
-      <div class="admin-brand-name">FERREMATERIALES</div>
-      <div class="admin-brand-sub">Panel Admin</div>
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-brand">
+      <img src="../../assets/icons/logo_recortado.png" alt="Logo">
+      <div>
+        <div class="admin-brand-name">FERREMATERIALES</div>
+        <div class="admin-brand-sub">Panel Admin</div>
+      </div>
     </div>
-  </div>
-  <nav class="admin-nav">
-    <div class="admin-nav-label">General</div>
-    <a href="dashboard.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Dashboard</a>
-    <div class="admin-nav-label">Catálogo</div>
-    <a href="productos.html" class="admin-nav-item active"><span class="admin-nav-icon"></span> Productos</a>
-    <a href="categorias.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Categorías</a>
-    <a href="ofertas.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Ofertas</a>
-    <div class="admin-nav-label">Ventas</div>
-    <a href="pedidos.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Pedidos</a>
-    <div class="admin-nav-label">Usuarios</div>
-    <a href="usuarios.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Usuarios</a>
-    <div class="admin-nav-divider"></div>
-    <a href="../index.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Ver tienda</a>
-    <a href="#" class="admin-nav-item admin-logout"><span class="admin-nav-icon"></span> Cerrar sesión</a>
-  </nav>
-</aside>
+    <nav class="admin-nav">
+      <div class="admin-nav-label">General</div>
+      <a href="dashboard.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Dashboard</a>
+      <div class="admin-nav-label">Catálogo</div>
+      <a href="productos.html" class="admin-nav-item active"><span class="admin-nav-icon"></span> Productos</a>
+      <a href="categorias.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Categorías</a>
+      <div class="admin-nav-label">Ventas</div>
+      <a href="pedidos.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Pedidos</a>
+      <div class="admin-nav-label">Usuarios</div>
+      <a href="usuarios.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Usuarios</a>
+      <div class="admin-nav-divider"></div>
+      <a href="../index.html" class="admin-nav-item"><span class="admin-nav-icon"></span> Ver tienda</a>
+      <a href="#" class="admin-nav-item admin-logout"><span class="admin-nav-icon"></span> Cerrar sesión</a>
+    </nav>
+  </aside>
 
-<div class="admin-content">
-  <div class="admin-topbar">
-    <div class="admin-page-title">Productos</div>
-    <div class="admin-user-badge" id="adminUserBadge">Admin</div>
-  </div>
-
-  <div class="admin-panel" style="margin:24px;">
-    <div class="admin-panel-header">
-      <span class="admin-panel-title">Todos los productos</span>
-      <button class="admin-btn admin-btn-primary" id="btnNuevoProducto">+ Nuevo producto</button>
+  <div class="admin-content">
+    <div class="admin-topbar">
+      <div class="admin-page-title">Productos</div>
+      <div class="admin-user-badge" id="adminUserBadge">Admin</div>
     </div>
 
-    <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
-      <input id="buscar" type="text" placeholder="Buscar producto..."
-        style="flex:1;min-width:200px;padding:10px 14px;background:#1a1a1a;border:1px solid #333;
+    <div class="admin-panel" style="margin:24px;">
+      <div class="admin-panel-header">
+        <span class="admin-panel-title">Todos los productos</span>
+        <button class="admin-btn admin-btn-primary" id="btnNuevoProducto">+ Nuevo producto</button>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+        <input id="buscar" type="text" placeholder="Buscar producto..." style="flex:1;min-width:200px;padding:10px 14px;background:#1a1a1a;border:1px solid #333;
         color:#fff;border-radius:4px;font-size:14px;outline:none;">
-      <select id="filtroCategoria"
-        style="padding:10px 14px;background:#1a1a1a;border:1px solid #333;
+        <select id="filtroCategoria" style="padding:10px 14px;background:#1a1a1a;border:1px solid #333;
         color:#fff;border-radius:4px;font-size:14px;outline:none;cursor:pointer;">
-        <option value="">Todas las categorías</option>
-      </select>
-    </div>
+          <option value="">Todas las categorías</option>
+        </select>
+      </div>
 
-    <div style="color:var(--muted);font-size:13px;margin-bottom:12px;">
-      Total: <span id="totalProductos">0</span>
-    </div>
+      <div style="color:var(--muted);font-size:13px;margin-bottom:12px;">
+        Total: <span id="totalProductos">0</span>
+      </div>
 
-    <div id="tablaProductos">
-      <div class="admin-loading">Cargando...</div>
+      <div id="tablaProductos">
+        <div class="admin-loading">Cargando...</div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- MODAL PRODUCTO -->
-<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);
+  <!-- MODAL PRODUCTO -->
+  <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);
   align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px);">
-  <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:32px;
+    <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:32px;
     max-width:560px;width:90%;max-height:90vh;overflow-y:auto;">
-    
-    <h3 id="modalTitulo" style="font-family:'Syne',sans-serif;font-size:18px;
+
+      <h3 id="modalTitulo" style="font-family:'Syne',sans-serif;font-size:18px;
       margin-bottom:24px;color:#fff;text-transform:uppercase;"></h3>
 
-    <form id="formProducto" enctype="multipart/form-data">
+      <form id="formProducto" enctype="multipart/form-data">
 
-      <!-- Preview imagen -->
-      <div style="margin-bottom:16px;text-align:center;">
-        <img id="previewImagen" src="" alt=""
-          style="display:none;width:120px;height:120px;object-fit:cover;
+        <!-- Preview imagen -->
+        <div style="margin-bottom:16px;text-align:center;">
+          <img id="previewImagen" src="" alt="" style="display:none;width:120px;height:120px;object-fit:cover;
           border-radius:4px;border:1px solid #333;margin-bottom:8px;">
-      </div>
+        </div>
 
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
 
-        <div style="grid-column:1/-1;">
-          <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
+          <div style="grid-column:1/-1;">
+            <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
             text-transform:uppercase;display:block;margin-bottom:6px;">Nombre *</label>
-          <input id="inpNombre" type="text" required
-            style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
+            <input id="inpNombre" type="text" required style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
             color:#fff;border-radius:4px;font-size:14px;outline:none;box-sizing:border-box;">
-        </div>
+          </div>
 
-        <div>
-          <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
+          <div>
+            <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
             text-transform:uppercase;display:block;margin-bottom:6px;">Categoría</label>
-          <select id="inpCategoria"
-            style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
+            <select id="inpCategoria" style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
             color:#fff;border-radius:4px;font-size:14px;outline:none;box-sizing:border-box;">
-          </select>
-        </div>
+            </select>
+          </div>
 
-        <div>
-          <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
+          <div>
+            <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
             text-transform:uppercase;display:block;margin-bottom:6px;">Precio *</label>
-          <input id="inpPrecio" type="number" min="0" step="0.01" required
-            style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
+            <input id="inpPrecio" type="number" min="0" step="0.01" required style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
             color:#fff;border-radius:4px;font-size:14px;outline:none;box-sizing:border-box;">
-        </div>
+          </div>
 
-        <div>
-          <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
+          <div>
+            <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
             text-transform:uppercase;display:block;margin-bottom:6px;">Stock mínimo</label>
-          <input id="inpStock" type="number" min="0" value="0"
-            style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
+            <input id="inpStock" type="number" min="0" value="0" style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
             color:#fff;border-radius:4px;font-size:14px;outline:none;box-sizing:border-box;">
-        </div>
+          </div>
 
-        <div style="grid-column:1/-1;">
-          <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
+          <div style="grid-column:1/-1;">
+            <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
             text-transform:uppercase;display:block;margin-bottom:6px;">Descripción</label>
-          <textarea id="inpDescripcion" rows="3"
-            style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
+            <textarea id="inpDescripcion" rows="3" style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
             color:#fff;border-radius:4px;font-size:14px;outline:none;
             box-sizing:border-box;resize:vertical;"></textarea>
-        </div>
+          </div>
 
-        <div style="grid-column:1/-1;">
-          <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
+          <div style="grid-column:1/-1;">
+            <label style="font-size:11px;font-weight:700;letter-spacing:2px;color:#888;
             text-transform:uppercase;display:block;margin-bottom:6px;">Imagen del producto</label>
-          <input id="inpImagen" type="file" accept="image/*"
-            style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
+            <input id="inpImagen" type="file" accept="image/*" style="width:100%;padding:10px 12px;background:#111;border:1px solid #333;
             color:#fff;border-radius:4px;font-size:14px;box-sizing:border-box;cursor:pointer;">
+          </div>
+
         </div>
 
-      </div>
-
-      <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;">
-        <button type="button" id="btnCancelar"
-          style="padding:10px 24px;background:transparent;border:1px solid #444;
+        <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;">
+          <button type="button" id="btnCancelar" style="padding:10px 24px;background:transparent;border:1px solid #444;
           color:#fff;border-radius:4px;cursor:pointer;font-size:14px;
           font-family:'Syne',sans-serif;font-weight:700;">Cancelar</button>
-        <button type="submit" id="btnGuardar"
-          style="padding:10px 24px;background:#ff6b00;border:none;
+          <button type="submit" id="btnGuardar" style="padding:10px 24px;background:#ff6b00;border:none;
           color:#fff;border-radius:4px;cursor:pointer;font-size:14px;
           font-family:'Syne',sans-serif;font-weight:700;">GUARDAR</button>
-      </div>
-      <div class="admin-form-group">
-        <label class="admin-label">Talla <span style="color:var(--muted);font-size:11px;">(opcional)</span></label>
-        <input id="inpTalla" type="text" class="admin-input"
-        placeholder="Ej: 38, 40, 42 / S, M, L / Única"
-        maxlength="20">
         </div>
-    </form>
+        <div class="admin-form-group">
+          <label class="admin-label">Talla <span style="color:var(--muted);font-size:11px;">(opcional)</span></label>
+          <input id="inpTalla" type="text" class="admin-input" placeholder="Ej: 38, 40, 42 / S, M, L / Única"
+            maxlength="20">
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
-<script src="../../js/admin-productos.js"></script>
+  <script src="../../js/admin-productos.js"></script>
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 const API_BASE =
   window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
+    window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
     : 'https://feel-revenue-tamper.ngrok-free.dev';
 
@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionStorage.getItem('fm_usuario') || 'null'
   );
   if (!usuario) { window.location.href = '../login.html'; return; }
-  if (usuario.rol !== 'admin') { window.location.href = '../index.html'; return; }
+  if (!['admin', 'super_admin'].includes(usuario.rol)) { window.location.href = '../index.html'; return; }
 
   token = localStorage.getItem('fm_token') || sessionStorage.getItem('fm_token');
 
@@ -58,11 +58,11 @@ function renderTabla(data) {
   }
 
   const badgeClass = {
-    pendiente:  'badge-pendiente',
+    pendiente: 'badge-pendiente',
     procesando: 'badge-procesando',
-    enviado:    'badge-enviado',
-    entregado:  'badge-entregado',
-    cancelado:  'badge-cancelado',
+    enviado: 'badge-enviado',
+    entregado: 'badge-entregado',
+    cancelado: 'badge-cancelado',
   };
 
   wrap.innerHTML = `
@@ -88,7 +88,7 @@ function renderTabla(data) {
             <td>
               ${p.estado !== 'cancelado' && p.estado !== 'entregado' ? `
                 <button class="admin-btn admin-btn-secondary admin-btn-sm"
-                  onclick="abrirModal(${p.id_pedido}, '${(p.nombre||'').replace(/'/g,"\\'")}', '${p.estado}')">
+                  onclick="abrirModal(${p.id_pedido}, '${(p.nombre || '').replace(/'/g, "\\'")}', '${p.estado}')">
                   ✏️ Estado
                 </button>
               ` : `<span style="color:#999; font-size:12px;">${p.estado === 'cancelado' ? 'Cancelado' : 'Finalizado'}</span>`}
@@ -104,7 +104,7 @@ function filtrar() {
   const q = document.getElementById('buscar').value.toLowerCase();
   const estado = document.getElementById('filtroEstado').value;
   const filtrados = pedidos.filter(p => {
-    const matchQ = !q || `#${p.id_pedido}`.includes(q) || (p.nombre||'').toLowerCase().includes(q);
+    const matchQ = !q || `#${p.id_pedido}`.includes(q) || (p.nombre || '').toLowerCase().includes(q);
     const matchE = !estado || p.estado === estado;
     return matchQ && matchE;
   });

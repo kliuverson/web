@@ -1,6 +1,6 @@
 const API_BASE =
   window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
+    window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
     : 'https://feel-revenue-tamper.ngrok-free.dev';
 
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  if (usuario.rol !== 'admin') {
+  if (!['admin', 'super_admin'].includes(usuario.rol)) {
     window.location.href = '../index.html';
     return;
   }
@@ -51,8 +51,8 @@ async function cargarStats(token) {
 
     const [resP, resPed, resU] = await Promise.all([
       fetch(`${API_BASE}/admin/stats/productos`, { headers }),
-      fetch(`${API_BASE}/admin/stats/pedidos`,   { headers }),
-      fetch(`${API_BASE}/admin/stats/usuarios`,  { headers }),
+      fetch(`${API_BASE}/admin/stats/pedidos`, { headers }),
+      fetch(`${API_BASE}/admin/stats/usuarios`, { headers }),
     ]);
 
     if (resP.ok) {
@@ -98,11 +98,11 @@ async function cargarPedidosRecientes(token) {
     }
 
     const badgeClass = {
-      pendiente:  'badge-pendiente',
+      pendiente: 'badge-pendiente',
       procesando: 'badge-procesando',
-      enviado:    'badge-enviado',
-      entregado:  'badge-entregado',
-      cancelado:  'badge-cancelado',
+      enviado: 'badge-enviado',
+      entregado: 'badge-entregado',
+      cancelado: 'badge-cancelado',
     };
 
     wrap.innerHTML = `

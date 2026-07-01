@@ -1,6 +1,6 @@
 const API_BASE =
   window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
+    window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
     : 'https://feel-revenue-tamper.ngrok-free.dev';
 
@@ -78,7 +78,7 @@ async function iniciarSesion() {
       mostrarExito('¡Bienvenido! Redirigiendo...');
 
       setTimeout(() => {
-        if (data.usuario.rol === 'admin') {
+        if (['admin', 'super_admin'].includes(data.usuario.rol)) {
           window.location.href = `${API_BASE}/pages/admin/dashboard.html`;
         } else {
           window.location.href = `${API_BASE}/pages/index.html`;

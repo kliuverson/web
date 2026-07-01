@@ -1,128 +1,122 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pedidos — FERREMATERIALES Admin</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@400;500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="../../style/admin.css">
 </head>
+
 <body class="admin-body">
 
-<aside class="admin-sidebar" id="adminSidebar">
-  <div class="admin-sidebar-brand">
-    <img src="../../assets/icons/logo_recortado.png" alt="Logo">
-    <div>
-      <div class="admin-brand-name">FERREMATERIALES</div>
-      <div class="admin-brand-sub">Panel Admin</div>
+  <aside class="admin-sidebar" id="adminSidebar">
+    <div class="admin-sidebar-brand">
+      <img src="../../assets/icons/logo_recortado.png" alt="Logo">
+      <div>
+        <div class="admin-brand-name">FERREMATERIALES</div>
+        <div class="admin-brand-sub">Panel Admin</div>
+      </div>
     </div>
-  </div>
-  <nav class="admin-nav">
-    <div class="admin-nav-label">General</div>
-    <a href="dashboard.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Dashboard
-    </a>
-    <div class="admin-nav-label">Catálogo</div>
-    <a href="productos.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Productos
-    </a>
-    <a href="categorias.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Categorías
-    </a>
-    <a href="ofertas.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Ofertas
-    </a>
-    <div class="admin-nav-label">Ventas</div>
-    <a href="pedidos.html" class="admin-nav-item active">
-      <span class="admin-nav-icon"></span> Pedidos
-    </a>
-    <div class="admin-nav-label">Usuarios</div>
-    <a href="usuarios.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Usuarios
-    </a>
-    <div class="admin-nav-divider"></div>
-    <a href="../index.html" class="admin-nav-item">
-      <span class="admin-nav-icon"></span> Ver tienda
-    </a>
-    <a href="#" class="admin-nav-item admin-logout">
-      <span class="admin-nav-icon"></span> Cerrar sesión
-    </a>
-  </nav>
-</aside>
+    <nav class="admin-nav">
+      <div class="admin-nav-label">General</div>
+      <a href="dashboard.html" class="admin-nav-item">
+        <span class="admin-nav-icon"></span> Dashboard
+      </a>
+      <div class="admin-nav-label">Catálogo</div>
+      <a href="productos.html" class="admin-nav-item">
+        <span class="admin-nav-icon"></span> Productos
+      </a>
+      <a href="categorias.html" class="admin-nav-item">
+        <span class="admin-nav-icon"></span> Categorías
+      </a>
+      <div class="admin-nav-label">Ventas</div>
+      <a href="pedidos.html" class="admin-nav-item active">
+        <span class="admin-nav-icon"></span> Pedidos
+      </a>
+      <div class="admin-nav-label">Usuarios</div>
+      <a href="usuarios.html" class="admin-nav-item">
+        <span class="admin-nav-icon"></span> Usuarios
+      </a>
+      <div class="admin-nav-divider"></div>
+      <a href="../index.html" class="admin-nav-item">
+        <span class="admin-nav-icon"></span> Ver tienda
+      </a>
+      <a href="#" class="admin-nav-item admin-logout">
+        <span class="admin-nav-icon"></span> Cerrar sesión
+      </a>
+    </nav>
+  </aside>
 
-<div class="admin-content">
-  <div class="admin-topbar">
-    <div class="admin-page-title">Pedidos</div>
-    <div class="admin-user-badge" id="adminUserBadge">Admin</div>
-  </div>
-
-  <div class="admin-panel" style="margin:24px;">
-    <div class="admin-panel-header">
-      <span class="admin-panel-title">Todos los pedidos</span>
-      <span id="totalPedidos" style="color:var(--muted);font-size:13px;">Total: 0</span>
+  <div class="admin-content">
+    <div class="admin-topbar">
+      <div class="admin-page-title">Pedidos</div>
+      <div class="admin-user-badge" id="adminUserBadge">Admin</div>
     </div>
 
-    <!-- Filtros -->
-    <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
-      <input id="buscar" type="text" placeholder="Buscar por cliente o ID..."
-        style="flex:1;min-width:200px;padding:10px 14px;background:#1a1a1a;border:1px solid #333;
+    <div class="admin-panel" style="margin:24px;">
+      <div class="admin-panel-header">
+        <span class="admin-panel-title">Todos los pedidos</span>
+        <span id="totalPedidos" style="color:var(--muted);font-size:13px;">Total: 0</span>
+      </div>
+
+      <!-- Filtros -->
+      <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+        <input id="buscar" type="text" placeholder="Buscar por cliente o ID..." style="flex:1;min-width:200px;padding:10px 14px;background:#1a1a1a;border:1px solid #333;
         color:#fff;border-radius:4px;font-size:14px;outline:none;">
-      <select id="filtroEstado"
-        style="padding:10px 14px;background:#1a1a1a;border:1px solid #333;
+        <select id="filtroEstado" style="padding:10px 14px;background:#1a1a1a;border:1px solid #333;
         color:#fff;border-radius:4px;font-size:14px;outline:none;cursor:pointer;">
-        <option value="">Todos los estados</option>
+          <option value="">Todos los estados</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="procesando">Procesando</option>
+          <option value="enviado">Enviado</option>
+          <option value="entregado">Entregado</option>
+        </select>
+      </div>
+
+      <div id="tablaPedidos">
+        <div class="admin-loading">Cargando...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CAMBIAR ESTADO -->
+  <div id="modalEstado" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7);
+  display:none; align-items:center; justify-content:center; z-index:9999; backdrop-filter:blur(4px);">
+    <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:32px;
+    max-width:420px;width:90%;">
+      <h3 style="font-family:'Syne',sans-serif;font-size:18px;margin-bottom:8px;color:#fff;">
+        Cambiar estado del pedido
+      </h3>
+      <p style="color:#888;font-size:14px;margin-bottom:20px;">
+        Pedido <strong id="modalPedidoId" style="color:#fff;"></strong> —
+        Cliente: <strong id="modalCliente" style="color:#fff;"></strong>
+      </p>
+      <select id="selectEstado" style="width:100%;padding:12px;background:#111;border:1px solid #444;
+      color:#fff;border-radius:4px;font-size:14px;margin-bottom:20px;outline:none;">
         <option value="pendiente">Pendiente</option>
         <option value="procesando">Procesando</option>
         <option value="enviado">Enviado</option>
         <option value="entregado">Entregado</option>
-        <option value="cancelado">Cancelado</option>
       </select>
-    </div>
-
-    <div id="tablaPedidos">
-      <div class="admin-loading">Cargando...</div>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL CAMBIAR ESTADO -->
-<div id="modalEstado" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7);
-  display:none; align-items:center; justify-content:center; z-index:9999; backdrop-filter:blur(4px);">
-  <div style="background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:32px;
-    max-width:420px;width:90%;">
-    <h3 style="font-family:'Syne',sans-serif;font-size:18px;margin-bottom:8px;color:#fff;">
-      Cambiar estado del pedido
-    </h3>
-    <p style="color:#888;font-size:14px;margin-bottom:20px;">
-      Pedido <strong id="modalPedidoId" style="color:#fff;"></strong> —
-      Cliente: <strong id="modalCliente" style="color:#fff;"></strong>
-    </p>
-    <select id="selectEstado"
-      style="width:100%;padding:12px;background:#111;border:1px solid #444;
-      color:#fff;border-radius:4px;font-size:14px;margin-bottom:20px;outline:none;">
-      <option value="pendiente">Pendiente</option>
-      <option value="procesando">Procesando</option>
-      <option value="enviado">Enviado</option>
-      <option value="entregado">Entregado</option>
-      <option value="cancelado">Cancelado</option>
-    </select>
-    <div style="display:flex;gap:12px;justify-content:flex-end;">
-      <button id="btnCancelarEstado"
-        style="padding:10px 24px;background:transparent;border:1px solid #444;
+      <div style="display:flex;gap:12px;justify-content:flex-end;">
+        <button id="btnCancelarEstado" style="padding:10px 24px;background:transparent;border:1px solid #444;
         color:#fff;border-radius:4px;cursor:pointer;font-size:14px;
         font-family:'Syne',sans-serif;font-weight:700;">
-        Cancelar
-      </button>
-      <button id="btnGuardarEstado"
-        style="padding:10px 24px;background:#ff6b00;border:none;
+          Cancelar
+        </button>
+        <button id="btnGuardarEstado" style="padding:10px 24px;background:#ff6b00;border:none;
         color:#fff;border-radius:4px;cursor:pointer;font-size:14px;
         font-family:'Syne',sans-serif;font-weight:700;">
-        Guardar
-      </button>
+          Guardar
+        </button>
+      </div>
     </div>
   </div>
-</div>
 
-<script src="../../js/admin-pedidos.js"></script>
+  <script src="../../js/admin-pedidos.js"></script>
 </body>
+
 </html>

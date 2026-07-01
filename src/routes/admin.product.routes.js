@@ -1,12 +1,12 @@
-const express        = require('express');
-const router         = express.Router();
-const model          = require('../models/product.model');
-const db             = require('../config/db');
+const express = require('express');
+const router = express.Router();
+const model = require('../models/product.model');
+const db = require('../config/db');
 const verificarToken = require('../middlewares/auth.middleware');
-const verificarAdmin = require('../middlewares/admin.middleware');
-const upload         = require('../middlewares/upload.middleware');
+const verificarRol = require('../middlewares/role.middleware');
+const upload = require('../middlewares/upload.middleware');
 
-router.use(verificarToken, verificarAdmin);
+router.use(verificarToken, verificarRol('admin', 'super_admin'));
 
 // GET todos los productos
 router.get('/', async (req, res, next) => {
